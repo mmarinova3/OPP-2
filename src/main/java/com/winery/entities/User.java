@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Table(name = "user", indexes = {
+        @Index(name = "id", columnList = "id", unique = true),
         @Index(name = "username", columnList = "username", unique = true),
         @Index(name = "password", columnList = "password"),
         @Index(name = "fk_role_id", columnList = "role_id")
