@@ -19,7 +19,7 @@ public class Bottle implements Serializable {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     @JdbcTypeCode(SqlTypes.INTEGER)
-    private Long id;
+    private Integer id;
 
     @Column(name = "volume", nullable = false, length = 5)
     private Double volume;
@@ -43,11 +43,11 @@ public class Bottle implements Serializable {
         this.quantity = quantity;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }

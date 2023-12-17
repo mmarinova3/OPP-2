@@ -1,10 +1,7 @@
 package com.winery.dao;
 
 import com.winery.entities.User;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +17,7 @@ public class UserDao implements Dao<User> {
     }
 
     @Override
-    public Optional<User> get(long id) {
+    public Optional<User> get(int id) {
         return Optional.ofNullable(entityManager.find(User.class, id));
     }
 
@@ -36,7 +33,7 @@ public class UserDao implements Dao<User> {
         try {
             transaction.begin();
             entityManager.persist(user);
-            transaction.commit();
+            transaction.commit(); // Commit the transaction after persisting the user
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -44,6 +41,7 @@ public class UserDao implements Dao<User> {
             }
         }
     }
+
 
     @Override
     public void update(User user, String[] params) {
@@ -75,6 +73,34 @@ public class UserDao implements Dao<User> {
                 transaction.rollback();
                 log.error("User delete error: " + e.getMessage());
             }
+        }
+    }
+
+    public User validateLogin(String enteredUsername, String enteredPassword) {
+        try {
+            // Query to retrieve a user based on the entered username and password
+            Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password");
+            query.setParameter("username", enteredUsername);
+            query.setParameter("password", enteredPassword);
+
+            // Try to get a single result, which would be the user with the given credentials
+            return (User) query.getSingleResult();
+        } catch (NoResultException e) {
+            // No user found with the entered credentials
+            return null;
+        }
+    }
+
+    public Optional<Integer> findRoleIdByRoleName(String roleName) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.id FROM Role r WHERE r.role_name = :roleName");
+            query.setParameter("roleName", roleName);
+
+            // Try to get a single result, which would be the ID of the role with the given name
+            return Optional.of((Integer) query.getSingleResult());
+        } catch (NoResultException e) {
+            // No role found with the entered role name
+            return Optional.empty();
         }
     }
 }

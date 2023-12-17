@@ -17,7 +17,7 @@ public class GrapeVariety {
 
     @Column(name = "grape_name", nullable = false)
     private String grapeName;
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "category", nullable = false)
     private GrapeCategory category;
 

@@ -27,7 +27,7 @@ public class User implements Serializable{
     @Column(name = "password", nullable = false, length = 50)
     private String password;
 
-    @Enumerated(EnumType.STRING)
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;
@@ -42,7 +42,7 @@ public class User implements Serializable{
         this.role = role;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -66,8 +66,19 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public String getRole() {
+        if (role != null) {
+            return role.getRoleName().toString();
+        } else {
+            return "No Role";
+        }
+    }
+    public Integer getRoleId() {
+        if (role != null) {
+            return role.getId();
+        } else {
+            return 1;
+        }
     }
 
     public void setRole(Role role) {

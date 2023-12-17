@@ -30,6 +30,7 @@ public class Role implements Serializable {
         this.id = id;
     }
 
+
     public UserRole getRoleName() {
         return roleName;
     }
