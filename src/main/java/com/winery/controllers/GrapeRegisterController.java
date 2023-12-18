@@ -8,7 +8,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,9 +22,23 @@ public class GrapeRegisterController {
     private TextField newGrapeName;
     @FXML
     private TextField newQuantity;
-
     @FXML
     private ComboBox<String> newCategory;
+
+    @FXML
+    private TableView<GrapeVariety> grapeVarietyTableView;
+
+    @FXML
+    private TableColumn<GrapeVariety, Integer> idColumn;
+
+    @FXML
+    private TableColumn<GrapeVariety, String> grapeNameColumn;
+
+    @FXML
+    private TableColumn<GrapeVariety, GrapeCategory> categoryColumn;
+
+    @FXML
+    private TableColumn<GrapeVariety, Double> quantityColumn;
     private GrapeVarietyService grapeVarietyService;
 
     public GrapeRegisterController() {
@@ -32,6 +48,15 @@ public class GrapeRegisterController {
     @FXML
     public void initialize() {
         setComboBoxItems();
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        grapeNameColumn.setCellValueFactory(new PropertyValueFactory<>("grapeName"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+        quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
+        // Fetch the data and set it to the TableView
+        List<GrapeVariety> grapeVarieties = grapeVarietyService.getAll();
+        grapeVarietyTableView.getItems().addAll(grapeVarieties);
     }
 
     private void setComboBoxItems() {
@@ -61,6 +86,6 @@ public class GrapeRegisterController {
         grapeVariety.setQuantity(quantity);
 
         System.out.println(grapeVariety.getGrapeName()+grapeVariety.getCategory()+grapeVariety.getQuantity());
-        grapeVarietyService.saveUser(grapeVariety);
+        grapeVarietyService.save(grapeVariety);
     }
 }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="914.0" style="-fx-background-color: #e0e0ce;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.UserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="584.0" prefWidth="914.0" style="-fx-background-color: #e0e0ce;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.HomeController">
     <children>
         <AnchorPane prefHeight="584.0" prefWidth="246.0" style="-fx-background-color: #b23a48;">
          <children>
@@ -18,22 +18,22 @@
                   <content>
                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="257.0" prefWidth="244.0">
                            <children>
-                              <Button layoutX="-1.0" layoutY="163.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="246.0" text="Register Grape Quantities" textFill="#fff6f6">
+                              <Button layoutX="-1.0" layoutY="124.0" mnemonicParsing="false" onAction="#registerWineComposition" prefHeight="44.0" prefWidth="246.0" text="Register Wine Composition" textFill="#fff6f6">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="-1.0" layoutY="82.0" mnemonicParsing="false" prefHeight="42.0" prefWidth="246.0" text="Register Bottle " textFill="#fff6f6">
+                              <Button layoutX="-1.0" layoutY="82.0" mnemonicParsing="false" onAction="#openRegisterBottleScene" prefHeight="42.0" prefWidth="246.0" text="Register Bottle " textFill="#fff6f6">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="-1.0" layoutY="41.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="246.0" text="Define Grape" textFill="#fff6f6">
+                              <Button layoutX="-1.0" layoutY="41.0" mnemonicParsing="false" onAction="#openDefineGrapeScene" prefHeight="41.0" prefWidth="246.0" text="Define Grape" textFill="#fff6f6">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="-1.0" layoutY="123.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="246.0" text="Define Wine Composition" textFill="#fff6f6">
+                              <Button layoutX="-1.0" layoutY="164.0" mnemonicParsing="false" onAction="#defineWineComponents" prefHeight="41.0" prefWidth="246.0" text="Define Wine Components" textFill="#fff6f6">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>
@@ -43,7 +43,7 @@
                                     <Font name="System Bold" size="14.0" />
                                  </font>
                               </Button>
-                              <Button layoutX="-1.0" layoutY="205.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="246.0" text="Bottle Wine" textFill="#fff6f6">
+                              <Button layoutX="-1.0" layoutY="205.0" mnemonicParsing="false" onAction="#bottleWine" prefHeight="41.0" prefWidth="246.0" text="Bottle Wine" textFill="#fff6f6">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>

@@ -35,23 +35,23 @@ public class UserService {
         return user;
     }
 
-    public Optional<User> getUserById(int Id) {
+    public Optional<User> getById(int Id) {
         return userDao.get(Id);
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return userDao.getAll();
     }
 
-    public void saveUser(User user) {
+    public void save(User user) {
         userDao.save(user);
     }
 
-    public void updateUser(User user, String[] params) {
+    public void update(User user, String[] params) {
         userDao.update(user, params);
     }
 
-    public void deleteUser(User user) {
+    public void delete(User user) {
         userDao.delete(user);
     }
 

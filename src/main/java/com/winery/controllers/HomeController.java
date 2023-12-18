@@ -13,7 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 
 
-public class UserController {
+public class HomeController {
 
     @FXML
     private Label userLabel;
@@ -30,7 +30,7 @@ public class UserController {
 
     private final Session session = Session.getInstance();
 
-    public UserController() {
+    public HomeController() {
     }
 
 
@@ -89,6 +89,37 @@ public class UserController {
         mainAnchor.getChildren().setAll(root);
     }
 
+    @FXML
+    private void openDefineGrapeScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/winery/winery_prod/input-fxml/define-grape.fxml"));
+        Parent root = loader.load();
+        mainAnchor.getChildren().setAll(root);
+    }
 
+    @FXML
+    private void openRegisterBottleScene() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/winery/winery_prod/input-fxml/register-bottle.fxml"));
+        Parent root = loader.load();
+        mainAnchor.getChildren().setAll(root);
+    }
 
+    @FXML
+    private void registerWineComposition() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/winery/winery_prod/input-fxml/register-composition.fxml"));
+        Parent root = loader.load();
+        mainAnchor.getChildren().setAll(root);
+    }
+
+    @FXML
+    private void defineWineComponents() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/winery/winery_prod/input-fxml/define-components.fxml"));
+        Parent root = loader.load();
+        mainAnchor.getChildren().setAll(root);
+    }
+    @FXML
+    private void bottleWine() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/winery/winery_prod/input-fxml/bottling.fxml"));
+        Parent root = loader.load();
+        mainAnchor.getChildren().setAll(root);
+    }
 }

@@ -1,9 +1,7 @@
 package com.winery.dao;
 
 import com.winery.entities.Bottle;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -74,6 +72,25 @@ public class BottleDao implements Dao<Bottle>{
                 transaction.rollback();
                 log.error("Bottle delete error: " + e.getMessage());
             }
+        }
+    }
+
+    public boolean existsByVolume(double volume) {
+        String queryStr = "SELECT COUNT(b) FROM Bottle b WHERE b.volume = :volume";
+        TypedQuery<Long> query = entityManager.createQuery(queryStr, Long.class);
+        query.setParameter("volume", volume);
+        Long count = query.getSingleResult();
+        return count > 0;
+    }
+
+    public Integer findIdByVolume(Double volume) {
+        Query query = entityManager.createQuery("SELECT r.id FROM Bottle r WHERE r.volume = :volume");
+        query.setParameter("volume", volume);
+
+        try {
+            return (Integer) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
     }
 }

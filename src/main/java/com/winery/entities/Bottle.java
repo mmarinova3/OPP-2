@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Table(name = "bottle", indexes = {
         @Index(name = "id", columnList = "id", unique = true),
-        @Index(name = "volume", columnList = "volume"),
+        @Index(name = "volume", columnList = "volume",unique = true),
         @Index(name = "quantity", columnList = "quantity")
 })
 
@@ -50,4 +50,5 @@ public class Bottle implements Serializable {
     public void setId(Integer id) {
         this.id = id;
     }
+
 }

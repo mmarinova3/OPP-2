@@ -30,19 +30,23 @@ public class GrapeVarietyService {
         return grapeVarietyDao.get(Id);
     }
 
-    public List<GrapeVariety> getAllUsers() {
+    public List<GrapeVariety> getAll() {
         return grapeVarietyDao.getAll();
     }
 
-    public void saveUser(GrapeVariety grapeVariety) {
+    public void save(GrapeVariety grapeVariety) {
         grapeVarietyDao.save(grapeVariety);
     }
 
-    public void updateUser(GrapeVariety grapeVariety, String[] params) {
+    public void update(GrapeVariety grapeVariety, String[] params) {
         grapeVarietyDao.update(grapeVariety, params);
     }
 
-    public void deleteUser(GrapeVariety grapeVariety) {
+    public void delete(GrapeVariety grapeVariety) {
         grapeVarietyDao.delete(grapeVariety);
+    }
+
+    public Integer findIdByName(String grapeName) {
+        return grapeVarietyDao.findIdByName(grapeName);
     }
 }

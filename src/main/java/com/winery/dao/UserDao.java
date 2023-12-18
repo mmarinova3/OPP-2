@@ -91,16 +91,4 @@ public class UserDao implements Dao<User> {
         }
     }
 
-    public Optional<Integer> findRoleIdByRoleName(String roleName) {
-        try {
-            Query query = entityManager.createQuery("SELECT r.id FROM Role r WHERE r.role_name = :roleName");
-            query.setParameter("roleName", roleName);
-
-            // Try to get a single result, which would be the ID of the role with the given name
-            return Optional.of((Integer) query.getSingleResult());
-        } catch (NoResultException e) {
-            // No role found with the entered role name
-            return Optional.empty();
-        }
-    }
 }

@@ -1,9 +1,7 @@
 package com.winery.dao;
 
 import com.winery.entities.GrapeVariety;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +24,7 @@ public class GrapeVarietyDao implements Dao<GrapeVariety>{
 
     @Override
     public List<GrapeVariety> getAll() {
-        TypedQuery<GrapeVariety> query = entityManager.createQuery("SELECT u FROM Grape_Variety u", GrapeVariety.class);
+        TypedQuery<GrapeVariety> query = entityManager.createQuery("SELECT u FROM GrapeVariety u", GrapeVariety.class);
         return query.getResultList();
     }
 
@@ -75,6 +73,17 @@ public class GrapeVarietyDao implements Dao<GrapeVariety>{
                 transaction.rollback();
                 log.error("Grape variety delete error: " + e.getMessage());
             }
+        }
+    }
+
+    public Integer findIdByName(String grapeVariety) {
+        Query query = entityManager.createQuery("SELECT r.id FROM GrapeVariety r WHERE r.grapeName = :grapeName");
+        query.setParameter("grapeName", grapeVariety);
+
+        try {
+            return (Integer) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
     }
 }

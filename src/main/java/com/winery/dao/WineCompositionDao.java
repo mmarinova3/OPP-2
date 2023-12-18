@@ -1,9 +1,7 @@
 package com.winery.dao;
 
 import com.winery.entities.WineComposition;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public class WineCompositionDao implements Dao<WineComposition>{
-
     private final static Logger log = LogManager.getLogger(WineComposition.class);
     private final EntityManager entityManager;
 
@@ -26,7 +23,7 @@ public class WineCompositionDao implements Dao<WineComposition>{
 
     @Override
     public List<WineComposition> getAll() {
-        TypedQuery<WineComposition> query = entityManager.createQuery("SELECT u FROM Wine_Composition u", WineComposition.class);
+        TypedQuery<WineComposition> query = entityManager.createQuery("SELECT u FROM WineComposition u", WineComposition.class);
         return query.getResultList();
     }
 
@@ -40,7 +37,7 @@ public class WineCompositionDao implements Dao<WineComposition>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine composition save error: " + e.getMessage());
+                log.error("Wine save error: " + e.getMessage());
             }
         }
     }
@@ -58,7 +55,7 @@ public class WineCompositionDao implements Dao<WineComposition>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine composition update error: " + e.getMessage());
+                log.error("Wine update error: " + e.getMessage());
             }
         }
     }
@@ -73,8 +70,19 @@ public class WineCompositionDao implements Dao<WineComposition>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine composition delete error: " + e.getMessage());
+                log.error("Wine delete error: " + e.getMessage());
             }
+        }
+    }
+
+    public Integer findIdByName(String compositionName) {
+        Query query = entityManager.createQuery("SELECT r.id FROM WineComposition r WHERE r.wineName = :wineName");
+        query.setParameter("wineName", compositionName);
+
+        try {
+            return (Integer) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
         }
     }
 }

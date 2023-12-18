@@ -1,53 +1,41 @@
 package com.winery.entities;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
+
+import java.io.Serializable;
 
 @Table(name = "wine_composition", indexes = {
         @Index(name = "id", columnList = "id", unique = true),
-        @Index(name = "fk_grape_id", columnList = "grape_id"),
-        @Index(name = "fk_wine_id", columnList = "wine_id")
-
+        @Index(name = "wine_name", columnList = "wine_name"),
 })
+
 @Entity
-public class WineComposition {
+public class WineComposition implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
+    @JdbcTypeCode(SqlTypes.INTEGER)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "grape_id", nullable = false)
-    private GrapeVariety grape;
-
-    @ManyToOne
-    @JoinColumn(name = "wine_id", nullable = false)
-    private Wine wine;
+    @Column(name = "wine_name", nullable = false, length = 50)
+    private String wineName;
 
     public Integer getId() {
         return id;
-    }
-
-    public GrapeVariety getGrape() {
-        return grape;
-    }
-
-    public void setGrape(GrapeVariety grape) {
-        this.grape = grape;
-    }
-
-    public Wine getWine() {
-        return wine;
-    }
-
-    public void setWine(Wine wine) {
-        this.wine = wine;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
+    public String getWineName() {
+        return wineName;
+    }
 
-
+    public void setWineName(String wineName) {
+        this.wineName = wineName;
+    }
 
 }

@@ -76,7 +76,7 @@ public class CreateUserController {
         newUser.setRole(role);
 
         System.out.println("New User: " + newUser.getUsername() + ", Role ID: " + newUser.getRoleId());
-         userService.saveUser(newUser);
+         userService.save(newUser);
     }
 
 

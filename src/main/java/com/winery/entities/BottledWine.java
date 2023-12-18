@@ -1,12 +1,14 @@
 package com.winery.entities;
 
 import jakarta.persistence.*;
+import java.util.Date;
 
 @Table(name = "bottled_wine", indexes = {
         @Index(name = "id", columnList = "id", unique = true),
         @Index(name = "fk_wine_id", columnList = "wine_id"),
         @Index(name = "fk_bottle_id", columnList = "bottle_id"),
-        @Index(name = "quantity", columnList = "quantity")
+        @Index(name = "quantity", columnList = "quantity"),
+        @Index(name = "bottling_date", columnList = "bottling_date"),
 })
 @Entity
 public class BottledWine {
@@ -15,10 +17,11 @@ public class BottledWine {
     @Column(name = "id", nullable = false)
     private Integer id;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "wine_id", nullable = false)
-    private Wine wine;
-
+    private WineComposition wineComposition;
+    @Id
     @ManyToOne
     @JoinColumn(name = "bottle_id", nullable = false)
     private Bottle bottle;
@@ -26,12 +29,16 @@ public class BottledWine {
     @Column(name = "quantity", nullable = false)
     private Integer quantity;
 
-    public Wine getWine() {
-        return wine;
+    @Temporal(TemporalType.DATE)
+    @Column(name = "bottling_date", nullable = false)
+    private Date bottlingDate;
+
+    public WineComposition getWineComposition() {
+        return wineComposition;
     }
 
-    public void setWine(Wine wine) {
-        this.wine = wine;
+    public void setWineComposition(WineComposition wineComposition) {
+        this.wineComposition = wineComposition;
     }
 
     public Bottle getBottle() {
@@ -48,6 +55,14 @@ public class BottledWine {
 
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
+    }
+
+    public Date getBottlingDate() {
+        return bottlingDate;
+    }
+
+    public void setBottlingDate(Date bottlingDate) {
+        this.bottlingDate = bottlingDate;
     }
 
     public Integer getId() {
