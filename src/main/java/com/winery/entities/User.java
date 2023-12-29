@@ -66,7 +66,11 @@ public class User implements Serializable{
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
+        return role;
+    }
+
+    public String getRoleName() {
         if (role != null) {
             return role.getRoleName().toString();
         } else {

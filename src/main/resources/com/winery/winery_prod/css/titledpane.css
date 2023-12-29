@@ -1,0 +1,19 @@
+.titled-pane {
+    -fx-background-color: transparent;
+}
+
+.titled-pane > .title {
+    -fx-background-color: #b23a48;
+}
+
+.titled-pane > .title > .text {
+    -fx-fill: white;
+}
+
+.titled-pane:hover {
+    -fx-background-color: purple;
+}
+
+.titled-pane > .content {
+    -fx-background-color: #b23a48;
+}

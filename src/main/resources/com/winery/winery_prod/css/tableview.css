@@ -1,0 +1,37 @@
+.table-view {
+    -fx-table-cell-border-color: derive(-fx-base, 20%);
+}
+
+/* Table Header styles */
+
+.table-view .column-header {
+    -fx-background-color: #e09f3e; /* Header background color */
+    -fx-text-fill: white; /* Header text color */
+    -fx-border-color: derive(-fx-base, 30%);
+    -fx-font-weight: bold;
+}
+
+/* Table Row styles */
+
+.table-row-cell:odd {
+    -fx-background-color: #f5f5f5; /* Alternate row color */
+}
+
+/* Selected Row styles */
+
+.table-row-cell:selected {
+    -fx-background-color: #6a92b7; /* Selected row color */
+    -fx-text-fill: white; /* Selected row text color */
+}
+
+/* Cell styles */
+
+.table-cell {
+    -fx-border-color: derive(-fx-base, 20%);
+}
+
+/* Hover effect on cells */
+
+.table-row-cell:hover {
+    -fx-background-color: #dbe5f1; /* Hover color */
+}

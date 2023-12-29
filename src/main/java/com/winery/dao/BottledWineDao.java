@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-public class BottledWineDao implements Dao<BottledWine>{
+public class BottledWineDao implements Dao<BottledWine> {
 
     private final static Logger log = LogManager.getLogger(BottledWine.class);
     private final EntityManager entityManager;
@@ -21,13 +21,23 @@ public class BottledWineDao implements Dao<BottledWine>{
 
     @Override
     public Optional<BottledWine> get(int id) {
-       return Optional.ofNullable(entityManager.find(BottledWine.class, id));
+        try {
+            return Optional.ofNullable(entityManager.find(BottledWine.class, id));
+        } catch (Exception e) {
+            log.error("Bottled wine get error: " + e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<BottledWine> getAll() {
-        TypedQuery<BottledWine> query = entityManager.createQuery("SELECT u FROM Bottled_Wine u", BottledWine.class);
-        return query.getResultList();
+        try {
+            TypedQuery<BottledWine> query = entityManager.createQuery("SELECT u FROM BottledWine u", BottledWine.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("Bottled wine getAll error: " + e.getMessage(), e);
+            return List.of();
+        }
     }
 
     @Override
@@ -40,7 +50,7 @@ public class BottledWineDao implements Dao<BottledWine>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Bottled wine save error: " + e.getMessage());
+                log.error("Bottled wine save error: " + e.getMessage(), e);
             }
         }
     }
@@ -50,15 +60,12 @@ public class BottledWineDao implements Dao<BottledWine>{
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            // Update user properties based on params
-            // Example: user.setUsername(params[0]);
-            // Update other properties as needed
             entityManager.merge(bottledWine);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Bottled wine update error: " + e.getMessage());
+                log.error("Bottled wine update error: " + e.getMessage(), e);
             }
         }
     }
@@ -73,7 +80,7 @@ public class BottledWineDao implements Dao<BottledWine>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Bottled wine delete error: " + e.getMessage());
+                log.error("Bottled wine delete error: " + e.getMessage(), e);
             }
         }
     }

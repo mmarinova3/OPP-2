@@ -17,11 +17,10 @@ public class BottledWine {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "wine_id", nullable = false)
     private WineComposition wineComposition;
-    @Id
+
     @ManyToOne
     @JoinColumn(name = "bottle_id", nullable = false)
     private Bottle bottle;
@@ -57,8 +56,8 @@ public class BottledWine {
         this.quantity = quantity;
     }
 
-    public Date getBottlingDate() {
-        return bottlingDate;
+    public java.sql.Date getBottlingDate() {
+        return (java.sql.Date) bottlingDate;
     }
 
     public void setBottlingDate(Date bottlingDate) {

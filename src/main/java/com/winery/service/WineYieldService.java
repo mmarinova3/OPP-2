@@ -12,11 +12,9 @@ public class WineYieldService {
 
     private static WineYieldService INSTANCE = null;
     private final WineYieldDao wineYieldDao;
-    private final Session session;
 
     private WineYieldService(EntityManager entityManager, Session session) {
         this.wineYieldDao = new WineYieldDao(entityManager);
-        this.session = session;
     }
 
     public static WineYieldService getInstance(EntityManager entityManager, Session session) {
@@ -26,23 +24,23 @@ public class WineYieldService {
         return INSTANCE;
     }
 
-    public Optional<WineYield> getWineProdById(int Id) {
+    public Optional<WineYield> getById(int Id) {
         return wineYieldDao.get(Id);
     }
 
-    public List<WineYield> getAllProductions() {
+    public List<WineYield> getAll() {
         return wineYieldDao.getAll();
     }
 
-    public void saveProduction(WineYield wine) {
+    public void save(WineYield wine) {
         wineYieldDao.save(wine);
     }
 
-    public void updateProduction(WineYield wine, String[] params) {
+    public void update(WineYield wine, String[] params) {
         wineYieldDao.update(wine, params);
     }
 
-    public void deleteProduction(WineYield wine) {
+    public void delete(WineYield wine) {
         wineYieldDao.delete(wine);
     }
 }

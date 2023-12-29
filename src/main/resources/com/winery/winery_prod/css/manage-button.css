@@ -1,0 +1,16 @@
+.management-button {
+    -fx-background-color: #e09f3e; /* Green background color */
+    -fx-text-fill: white; /* White text color */
+    -fx-font-weight: bold; /* Bold text */
+    -fx-padding: 8px 16px; /* Padding for better spacing */
+    -fx-background-radius: 5px; /* Rounded corners */
+    -fx-border-radius: 5px; /* Rounded corners */
+}
+
+.management-button:hover {
+    -fx-background-color: #e36414; /* Darker green on hover */
+}
+
+.management-button:pressed {
+    -fx-background-color: #fb8b24; /* Darker green when pressed */
+}

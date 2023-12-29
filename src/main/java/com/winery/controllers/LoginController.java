@@ -25,7 +25,6 @@ public class LoginController {
         private PasswordField password;
 
 
-
         private final UserService userService;
 
         public LoginController() {
@@ -37,11 +36,8 @@ public class LoginController {
                 Session.getInstance();
         }
 
-        @FXML
-        public void userLogin() throws IOException {
-                checkLogin();
-        }
 
+        @FXML
         private void checkLogin() throws IOException {
                 Main app = new Main();
 
@@ -53,8 +49,7 @@ public class LoginController {
 
                         if (currentUser != null) {
                                 wrongLogIn.setText("Successful");
-                                app.changeScene("main-view.fxml");
-
+                             app.changeScene("main-view.fxml",1000,600,true);
                         } else {
                                 wrongLogIn.setText("Invalid username/password");
                         }
@@ -63,6 +58,10 @@ public class LoginController {
                 }
         }
 
-
-
+        @FXML
+        private void close_clicked() {
+                javafx.application.Platform.exit();
+        }
 }
+
+

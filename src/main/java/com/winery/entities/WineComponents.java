@@ -24,7 +24,6 @@ public class WineComponents {
     private double quantityNeeded;
 
 
-
     public GrapeVariety getGrape() {
         return grape;
     }
@@ -49,4 +48,6 @@ public class WineComponents {
     public void setQuantityNeeded(double quantityNeeded) {
         this.quantityNeeded = quantityNeeded;
     }
+
+
 }

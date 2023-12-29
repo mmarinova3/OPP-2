@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-public class WineComponentsDao implements Dao<WineComponents>{
+public class WineComponentsDao implements Dao<WineComponents> {
 
     private final static Logger log = LogManager.getLogger(WineComponents.class);
     private final EntityManager entityManager;
@@ -21,13 +21,23 @@ public class WineComponentsDao implements Dao<WineComponents>{
 
     @Override
     public Optional<WineComponents> get(int id) {
-        return Optional.ofNullable(entityManager.find(WineComponents.class, id));
+        try {
+            return Optional.ofNullable(entityManager.find(WineComponents.class, id));
+        } catch (Exception e) {
+            log.error("Wine composition get error: " + e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<WineComponents> getAll() {
-        TypedQuery<WineComponents> query = entityManager.createQuery("SELECT u FROM WineComponents u", WineComponents.class);
-        return query.getResultList();
+        try {
+            TypedQuery<WineComponents> query = entityManager.createQuery("SELECT u FROM WineComponents u", WineComponents.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("Wine composition getAll error: " + e.getMessage(), e);
+            return List.of();
+        }
     }
 
     @Override
@@ -40,7 +50,7 @@ public class WineComponentsDao implements Dao<WineComponents>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine composition save error: " + e.getMessage());
+                log.error("Wine composition save error: " + e.getMessage(), e);
             }
         }
     }
@@ -50,15 +60,12 @@ public class WineComponentsDao implements Dao<WineComponents>{
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            // Update user properties based on params
-            // Example: user.setUsername(params[0]);
-            // Update other properties as needed
             entityManager.merge(wineComponents);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine composition update error: " + e.getMessage());
+                log.error("Wine composition update error: " + e.getMessage(), e);
             }
         }
     }
@@ -73,7 +80,7 @@ public class WineComponentsDao implements Dao<WineComponents>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine composition delete error: " + e.getMessage());
+                log.error("Wine composition delete error: " + e.getMessage(), e);
             }
         }
     }

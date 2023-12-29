@@ -3,17 +3,44 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="228.0" prefWidth="326.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.WineComponentsController">
+<AnchorPane prefHeight="556.0" prefWidth="668.0" style="-fx-background-color: fff3b0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.WineComponentsController">
    <children>
-      <ComboBox fx:id="wineName" layoutX="89.0" layoutY="44.0" prefWidth="150.0" />
-      <ComboBox fx:id="grapeName" layoutX="89.0" layoutY="86.0" prefWidth="150.0" />
-      <TextField fx:id="quantityNeeded" layoutX="89.0" layoutY="128.0" />
-      <Button layoutX="138.0" layoutY="167.0" mnemonicParsing="false" onAction="#defineWineComponents" text="Define" />
-      <Label layoutX="140.0" layoutY="111.0" text="Quantity" />
-      <Label layoutX="137.0" layoutY="69.0" text="Grape Variety" />
-      <Label layoutX="150.0" layoutY="27.0" text="Wine" />
+      <ComboBox fx:id="wineName" layoutX="56.0" layoutY="141.0" prefWidth="150.0" />
+      <ComboBox fx:id="grapeName" layoutX="57.0" layoutY="191.0" prefWidth="150.0" />
+      <TextField fx:id="quantityNeeded" layoutX="56.0" layoutY="239.0" prefHeight="25.0" prefWidth="150.0" />
+      <Button layoutX="56.0" layoutY="278.0" mnemonicParsing="false" onAction="#defineWineComponents" prefHeight="25.0" prefWidth="150.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Define" />
+      <Label layoutX="63.0" layoutY="216.0" text="Quantity" textFill="#d37941">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font></Label>
+      <Label layoutX="63.0" layoutY="166.0" text="Grape Variety" textFill="#d37941">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font></Label>
+      <Label layoutX="62.0" layoutY="117.0" text="Wine" textFill="#d37941">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font></Label>
+      <Button fx:id="editButton" layoutX="56.0" layoutY="316.0" mnemonicParsing="false" onAction="#updateSelectedWineComponent" prefHeight="25.0" prefWidth="150.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Edit" />
+      <Button fx:id="deleteButton" layoutX="56.0" layoutY="356.0" mnemonicParsing="false" onAction="#deleteSelectedWineComponent" prefHeight="25.0" prefWidth="150.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
+      <Label layoutX="72.0" layoutY="39.0" prefHeight="43.0" prefWidth="564.0" text="Wine Components Management" textFill="#9d0208">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="36.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventMessage" layoutX="55.0" layoutY="400.0" prefHeight="17.0" prefWidth="207.0" textFill="#bc1111" />
+      <TableView fx:id="wineComponentsTableView" layoutX="277.0" layoutY="104.0" stylesheets="@../css/tableview.css">
+        <columns>
+          <TableColumn fx:id="wineNameColumn" prefWidth="133.0" text="Wine name" />
+          <TableColumn fx:id="grapeNameColumn" prefWidth="130.0" text="Grape variaty" />
+            <TableColumn fx:id="quantityNeededColumn" prefWidth="94.0" text="Quntity needed" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

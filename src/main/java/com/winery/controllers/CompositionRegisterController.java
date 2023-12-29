@@ -1,21 +1,66 @@
 package com.winery.controllers;
 
+import com.winery.accessControl.AccessController;
 import com.winery.entities.WineComposition;
 import com.winery.service.WineCompositionService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+
+import java.io.IOException;
+import java.util.List;
 
 public class CompositionRegisterController {
-
+    @FXML
+    private Label eventMessage;
     @FXML
     private TextField newCompositionName;
-
-    private WineCompositionService wineCompositionService;
+    @FXML
+    private TableView<WineComposition> wineCompositionTableView;
+    @FXML
+    private TableColumn<WineComposition, String> nameColumn;
+    @FXML
+    private AnchorPane mainAnchor;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button deleteButton;
+    private final AccessController accessController;
+    private final WineCompositionService wineCompositionService;
 
     public CompositionRegisterController() {
         this.wineCompositionService = WineCompositionService.getInstance(Connection.getEntityManager(), Session.getInstance());
+        this.accessController = new AccessController(Session.getInstance().getUser());
+    }
+    @FXML
+    public void initialize() {
+        accessCheck();
+
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("wineName"));
+
+        List<WineComposition> wineCompositions = wineCompositionService.getAll();
+       wineCompositionTableView.getItems().addAll(wineCompositions);
+
+       wineCompositionTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateFieldsWithSelectedRow(newValue);
+            } else {
+                clearInputFields();
+            }
+       });
+    }
+
+    private void updateFieldsWithSelectedRow(WineComposition selectedWineComposition) {
+        newCompositionName.setText(String.valueOf(selectedWineComposition.getWineName()));
+    }
+
+    private void clearInputFields() {
+        newCompositionName.clear();
     }
 
     @FXML
@@ -23,11 +68,88 @@ public class CompositionRegisterController {
        String compositionName= newCompositionName.getText();
 
        if (compositionName==null){
+           eventMessage.setText("Please fill in all fields");
            return;
        }
+
+        boolean nameExists = wineCompositionTableView.getItems().stream()
+                .anyMatch(wineComposition -> wineComposition.getWineName().equals(compositionName));
+
+
+        if (nameExists) {
+            eventMessage.setText(compositionName+" already exists");
+            return;
+        }
 
        WineComposition wineComposition = new WineComposition();
        wineComposition.setWineName(compositionName);
        wineCompositionService.save(wineComposition);
+       clearInputFields();
+       wineCompositionTableView.refresh();
+       eventMessage.setText("New wine composition successfully added");
     }
+
+    @FXML
+    private void updateSelectedWineComposition() {
+        WineComposition selectedWineComposition = wineCompositionTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedWineComposition != null) {
+            String compositionName = newCompositionName.getText();
+
+
+            if (compositionName.isEmpty()) {
+                eventMessage.setText("Please fill in field for the update");
+                return;
+            }
+
+            boolean nameExists = wineCompositionTableView.getItems().stream()
+                    .anyMatch(wineComposition -> wineComposition.getWineName().equals(compositionName));
+
+
+            if (nameExists) {
+                eventMessage.setText(compositionName+" already exists");
+                return;
+            }
+
+            selectedWineComposition.setWineName(compositionName);
+
+               wineCompositionService.update(selectedWineComposition, new String[]{compositionName});
+               wineCompositionTableView.refresh();
+               eventMessage.setText("Wine composition successfully updated");
+
+        } else {
+            eventMessage.setText("Please select a row to update");
+        }
+    }
+
+    @FXML
+    private void deleteSelectedBottle() {
+
+        WineComposition selectedWineComposition = wineCompositionTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedWineComposition != null) {
+            wineCompositionService.delete(selectedWineComposition);
+            wineCompositionTableView.getItems().remove(selectedWineComposition);
+            wineCompositionTableView.refresh();
+            eventMessage.setText("Wine composition successfully deleted");
+        } else {
+            eventMessage.setText("Please select a row to delete");
+        }
+
+    }
+
+    @FXML
+    public void openDefineWineComponentsView() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/winery/winery_prod/input-fxml/define-components.fxml"));
+        Parent root = loader.load();
+        mainAnchor.getChildren().setAll(root);
+    }
+
+    private void accessCheck(){
+        if(!accessController.checkAdminOrOperatorAccess()){
+            editButton.setDisable(true);
+            deleteButton.setDisable(true);
+        }
+    }
+
 }

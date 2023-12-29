@@ -4,21 +4,35 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="273.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.CreateUserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: fff3b0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.CreateUserController">
    <children>
-      <ComboBox fx:id="newRole" layoutX="66.0" layoutY="41.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose role" />
-      <Label layoutX="89.0" layoutY="8.0" prefHeight="27.0" prefWidth="103.0" text="Create User" textFill="#070707">
+      <ComboBox fx:id="newRole" layoutX="64.0" layoutY="97.0" prefHeight="25.0" prefWidth="149.0" promptText="Choose role" />
+      <Label layoutX="89.0" layoutY="8.0" prefHeight="71.0" prefWidth="285.0" text="Create User" textFill="#9d0208">
          <font>
-            <Font size="18.0" />
+            <Font name="Arial Rounded MT Bold" size="25.0" />
          </font>
       </Label>
-      <Button layoutX="66.0" layoutY="145.0" mnemonicParsing="false" onAction="#createUser" prefHeight="25.0" prefWidth="149.0" text="Create" />
-      <TextField fx:id="newUsername" layoutX="66.0" layoutY="76.0" promptText="Username" />
-      <PasswordField fx:id="newPassword" layoutX="66.0" layoutY="109.0" promptText="Password" />
-      <Label fx:id="creationInfo" layoutX="52.0" layoutY="180.0" prefHeight="17.0" prefWidth="182.0" />
+      <Button layoutX="64.0" layoutY="201.0" mnemonicParsing="false" onAction="#createUser" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Create" />
+      <TextField fx:id="newUsername" layoutX="64.0" layoutY="132.0" promptText="Username" />
+      <PasswordField fx:id="newPassword" layoutX="64.0" layoutY="165.0" promptText="Password" />
+      <Label fx:id="eventMessage" layoutX="64.0" layoutY="337.0" prefHeight="17.0" prefWidth="182.0" textFill="#940a0a" />
+      <TableView fx:id="userTableView" layoutX="291.0" layoutY="55.0" stylesheets="@../css/tableview.css">
+        <columns>
+          <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="Username" />
+          <TableColumn fx:id="passwordColumn" prefWidth="75.0" text="Password" />
+            <TableColumn fx:id="roleColumn" prefWidth="75.0" text="Role" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button layoutX="64.0" layoutY="245.0" mnemonicParsing="false" onAction="#editUser" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Edit" />
+      <Button layoutX="64.0" layoutY="287.0" mnemonicParsing="false" onAction="#deleteUser" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
    </children>
 </AnchorPane>

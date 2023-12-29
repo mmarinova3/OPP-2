@@ -18,13 +18,23 @@ public class UserDao implements Dao<User> {
 
     @Override
     public Optional<User> get(int id) {
-        return Optional.ofNullable(entityManager.find(User.class, id));
+        try {
+            return Optional.ofNullable(entityManager.find(User.class, id));
+        } catch (Exception e) {
+            log.error("User get error: " + e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<User> getAll() {
-        TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
-        return query.getResultList();
+        try {
+            TypedQuery<User> query = entityManager.createQuery("SELECT u FROM User u", User.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("User getAll error: " + e.getMessage(), e);
+            return List.of();
+        }
     }
 
     @Override
@@ -33,31 +43,27 @@ public class UserDao implements Dao<User> {
         try {
             transaction.begin();
             entityManager.persist(user);
-            transaction.commit(); // Commit the transaction after persisting the user
+            transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("User save error: " + e.getMessage());
+                log.error("User save error: " + e.getMessage(), e);
             }
         }
     }
-
 
     @Override
     public void update(User user, String[] params) {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            // Update user properties based on params
-            // Example: user.setUsername(params[0]);
-            // Update other properties as needed
             entityManager.merge(user);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("User update error: " + e.getMessage());
-        }
+                log.error("User update error: " + e.getMessage(), e);
+            }
         }
     }
 
@@ -71,24 +77,23 @@ public class UserDao implements Dao<User> {
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("User delete error: " + e.getMessage());
+                log.error("User delete error: " + e.getMessage(), e);
             }
         }
     }
 
     public User validateLogin(String enteredUsername, String enteredPassword) {
         try {
-            // Query to retrieve a user based on the entered username and password
             Query query = entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password");
             query.setParameter("username", enteredUsername);
             query.setParameter("password", enteredPassword);
-
-            // Try to get a single result, which would be the user with the given credentials
             return (User) query.getSingleResult();
         } catch (NoResultException e) {
-            // No user found with the entered credentials
+            log.error("User login validation error: " + e.getMessage(), e);
+            return null;
+        } catch (Exception e) {
+            log.error("Unexpected error during user login validation: " + e.getMessage(), e);
             return null;
         }
     }
-
 }

@@ -3,15 +3,42 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="243.0" prefWidth="309.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.DefineGrapeController">
+<AnchorPane prefHeight="407.0" prefWidth="692.0" style="-fx-background-color: fff3b0;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.DefineGrapeController">
    <children>
-      <ComboBox fx:id="grapeVariety" layoutX="77.0" layoutY="88.0" prefWidth="150.0" />
-      <TextField fx:id="yieldPerKG" layoutX="78.0" layoutY="136.0" />
-      <Button layoutX="116.0" layoutY="176.0" mnemonicParsing="false" onAction="#registerGrapeVariety" prefHeight="25.0" prefWidth="63.0" text="Define" />
-      <Label layoutX="117.0" layoutY="71.0" text="Grape variety" />
-      <Label layoutX="121.0" layoutY="119.0" text="yield per kg" />
+      <ComboBox fx:id="grapeVarietyComboBox" layoutX="62.0" layoutY="177.0" prefWidth="150.0" />
+      <TextField fx:id="yieldPerKG" layoutX="62.0" layoutY="238.0" prefHeight="25.0" prefWidth="149.0" />
+      <Button layoutX="62.0" layoutY="276.0" mnemonicParsing="false" onAction="#defineGrapeVariety" prefHeight="33.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Define" />
+      <Label layoutX="62.0" layoutY="151.0" text="Grape variety" textFill="#d37941">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font></Label>
+      <Label layoutX="62.0" layoutY="212.0" text="yield per kg" textFill="#d37941">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="15.0" />
+         </font></Label>
+      <TableView fx:id="wineYieldTableView" layoutX="309.0" layoutY="125.0" stylesheets="@../css/tableview.css">
+        <columns>
+          <TableColumn fx:id="grapeNameColum" prefWidth="137.0" text="Grape Variety" />
+          <TableColumn fx:id="litersColumn" prefWidth="86.0" text="Yield per kg" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Button fx:id="deleteButton" layoutX="62.0" layoutY="354.0" mnemonicParsing="false" onAction="#deleteSelectedWineYield" prefHeight="33.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
+      <Button fx:id="editButton" layoutX="62.0" layoutY="315.0" mnemonicParsing="false" onAction="#updateSelectedWineYield" prefHeight="33.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Edit" />
+      <Label fx:id="eventMessage" layoutX="62.0" layoutY="399.0" prefHeight="17.0" prefWidth="232.0" textFill="#bc1111" />
+      <Text fill="#9d0208" layoutX="42.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount of wine that can be produced from a kilogram of grapes" textAlignment="CENTER" wrappingWidth="607.796875">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="32.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

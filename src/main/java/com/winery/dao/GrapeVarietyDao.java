@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-public class GrapeVarietyDao implements Dao<GrapeVariety>{
+public class GrapeVarietyDao implements Dao<GrapeVariety> {
 
     private final static Logger log = LogManager.getLogger(GrapeVariety.class);
     private final EntityManager entityManager;
@@ -19,13 +19,23 @@ public class GrapeVarietyDao implements Dao<GrapeVariety>{
 
     @Override
     public Optional<GrapeVariety> get(int id) {
-        return Optional.ofNullable(entityManager.find(GrapeVariety.class, id));
+        try {
+            return Optional.ofNullable(entityManager.find(GrapeVariety.class, id));
+        } catch (Exception e) {
+            log.error("Grape variety get error: " + e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<GrapeVariety> getAll() {
-        TypedQuery<GrapeVariety> query = entityManager.createQuery("SELECT u FROM GrapeVariety u", GrapeVariety.class);
-        return query.getResultList();
+        try {
+            TypedQuery<GrapeVariety> query = entityManager.createQuery("SELECT u FROM GrapeVariety u", GrapeVariety.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("Grape variety getAll error: " + e.getMessage(), e);
+            return List.of();
+        }
     }
 
     @Override
@@ -38,7 +48,7 @@ public class GrapeVarietyDao implements Dao<GrapeVariety>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Grape variety save error: " + e.getMessage());
+                log.error("Grape variety save error: " + e.getMessage(), e);
             }
         }
     }
@@ -48,15 +58,12 @@ public class GrapeVarietyDao implements Dao<GrapeVariety>{
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            // Update user properties based on params
-            // Example: user.setUsername(params[0]);
-            // Update other properties as needed
             entityManager.merge(grapeVariety);
             transaction.commit();
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Grape variety update error: " + e.getMessage());
+                log.error("Grape variety update error: " + e.getMessage(), e);
             }
         }
     }
@@ -71,18 +78,20 @@ public class GrapeVarietyDao implements Dao<GrapeVariety>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Grape variety delete error: " + e.getMessage());
+                log.error("Grape variety delete error: " + e.getMessage(), e);
             }
         }
     }
 
     public Integer findIdByName(String grapeVariety) {
-        Query query = entityManager.createQuery("SELECT r.id FROM GrapeVariety r WHERE r.grapeName = :grapeName");
-        query.setParameter("grapeName", grapeVariety);
-
         try {
+            Query query = entityManager.createQuery("SELECT r.id FROM GrapeVariety r WHERE r.grapeName = :grapeName");
+            query.setParameter("grapeName", grapeVariety);
             return (Integer) query.getSingleResult();
         } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            log.error("Error finding GrapeVariety ID by name: " + e.getMessage(), e);
             return null;
         }
     }

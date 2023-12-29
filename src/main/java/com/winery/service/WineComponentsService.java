@@ -11,11 +11,9 @@ import java.util.Optional;
 public class WineComponentsService {
     private static WineComponentsService INSTANCE = null;
     private final WineComponentsDao wineComponentsDao;
-    private final Session session;
 
     private WineComponentsService(EntityManager entityManager, Session session) {
         this.wineComponentsDao = new WineComponentsDao(entityManager);
-        this.session = session;
     }
 
     public static WineComponentsService getInstance(EntityManager entityManager, Session session) {

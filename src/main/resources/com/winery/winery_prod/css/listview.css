@@ -1,0 +1,41 @@
+/* ListView styles */
+
+.list-view {
+    -fx-background-color: #fff3b0; /* Background color */
+    -fx-font-weight: bold; /* Font weight */
+}
+
+/* List Cell styles */
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #333333; /* Text color */
+}
+
+/* Hover effect on cells */
+
+.list-cell:hover {
+    -fx-background-color: #dbe5f1; /* Hover color */
+}
+
+/* Selected Cell styles */
+
+.list-cell:selected {
+    -fx-background-color: #6a92b7; /* Selected cell color */
+    -fx-text-fill: white; /* Selected cell text color */
+}
+
+/* Focus Ring style */
+
+.list-cell:focused {
+    -fx-background-color: transparent;
+    -fx-border-color: #4e79a0; /* Focus ring color */
+    -fx-border-width: 1.0;
+    -fx-border-style: solid;
+}
+
+/* Placeholder Text style */
+
+.list-view .placeholder {
+    -fx-text-fill: #999999; /* Placeholder text color */
+}

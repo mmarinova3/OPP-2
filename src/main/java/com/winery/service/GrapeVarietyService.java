@@ -12,11 +12,9 @@ import java.util.Optional;
 public class GrapeVarietyService {
     private static GrapeVarietyService INSTANCE = null;
     private final GrapeVarietyDao grapeVarietyDao;
-    private final Session session;
 
     private GrapeVarietyService(EntityManager entityManager, Session session) {
         this.grapeVarietyDao = new GrapeVarietyDao(entityManager);
-        this.session = session;
     }
 
     public static GrapeVarietyService getInstance(EntityManager entityManager, Session session) {

@@ -48,6 +48,7 @@
     </dependency>
 
 
+
       <!-- https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core -->
       <dependency>
           <groupId>org.hibernate.orm</groupId>
@@ -62,13 +63,19 @@
           <version>8.2.0</version>
       </dependency>
 
-
       <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
-    <dependency>
-      <groupId>org.apache.logging.log4j</groupId>
-      <artifactId>log4j-core</artifactId>
-      <version>3.0.0-alpha1</version>
-    </dependency>
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-core</artifactId>
+          <version>3.0.0-beta1</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+      <dependency>
+          <groupId>org.apache.logging.log4j</groupId>
+          <artifactId>log4j-api</artifactId>
+          <version>3.0.0-beta1</version>
+      </dependency>
 
       <!-- https://mvnrepository.com/artifact/javax.persistence/persistence-api -->
       <dependency>
@@ -76,6 +83,14 @@
           <artifactId>persistence-api</artifactId>
           <version>1.0.2</version>
       </dependency>
+
+      <!-- https://mvnrepository.com/artifact/org.controlsfx/controlsfx -->
+      <dependency>
+          <groupId>org.controlsfx</groupId>
+          <artifactId>controlsfx</artifactId>
+          <version>11.2.0</version>
+      </dependency>
+
 
   </dependencies>
 

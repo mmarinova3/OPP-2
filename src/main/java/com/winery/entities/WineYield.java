@@ -2,6 +2,8 @@ package com.winery.entities;
 
 import jakarta.persistence.*;
 
+import java.util.Objects;
+
 
 @Table(name = "wine_yield", indexes = {
         @Index(name = "fk_grape_id", columnList = "grape_id"),
@@ -33,4 +35,18 @@ public class WineYield {
     public void setYieldPerKg(Double yieldPerKg) {
         this.yieldPerKg = yieldPerKg;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WineYield wineYield = (WineYield) o;
+        return Objects.equals(getGrape(), wineYield.getGrape());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getGrape());
+    }
+
 }

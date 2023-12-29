@@ -10,7 +10,7 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 import java.util.Optional;
 
-public class WineYieldDao implements Dao<WineYield>{
+public class WineYieldDao implements Dao<WineYield> {
 
     private final static Logger log = LogManager.getLogger(WineYield.class);
     private final EntityManager entityManager;
@@ -21,13 +21,23 @@ public class WineYieldDao implements Dao<WineYield>{
 
     @Override
     public Optional<WineYield> get(int id) {
-        return Optional.ofNullable(entityManager.find(WineYield.class, id));
+        try {
+            return Optional.ofNullable(entityManager.find(WineYield.class, id));
+        } catch (Exception e) {
+            log.error("Wine yield get error: " + e.getMessage(), e);
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<WineYield> getAll() {
-        TypedQuery<WineYield> query = entityManager.createQuery("SELECT u FROM WineYield u", WineYield.class);
-        return query.getResultList();
+        try {
+            TypedQuery<WineYield> query = entityManager.createQuery("SELECT u FROM WineYield u", WineYield.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("Wine yield getAll error: " + e.getMessage(), e);
+            return List.of();
+        }
     }
 
     @Override
@@ -40,7 +50,7 @@ public class WineYieldDao implements Dao<WineYield>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine production save error: " + e.getMessage());
+                log.error("Wine yield save error: " + e.getMessage(), e);
             }
         }
     }
@@ -55,7 +65,7 @@ public class WineYieldDao implements Dao<WineYield>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine production update error: " + e.getMessage());
+                log.error("Wine yield update error: " + e.getMessage(), e);
             }
         }
     }
@@ -70,7 +80,7 @@ public class WineYieldDao implements Dao<WineYield>{
         } catch (Exception e) {
             if (transaction.isActive()) {
                 transaction.rollback();
-                log.error("Wine production delete error: " + e.getMessage());
+                log.error("Wine yield delete error: " + e.getMessage(), e);
             }
         }
     }

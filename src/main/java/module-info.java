@@ -7,6 +7,7 @@ module com.winery{
     requires jakarta.persistence;
     requires persistence.api;
     requires org.hibernate.orm.core;
+    requires org.controlsfx.controls;
 
     exports com.winery.entities;
     opens com.winery.entities to org.hibernate.orm.core;
@@ -14,7 +15,7 @@ module com.winery{
     opens com.winery.winery_prod to javafx.fxml;
     exports com.winery.winery_prod;
     exports com.winery.controllers;
-    opens com.winery.controllers to javafx.fxml;
+    opens com.winery.controllers to javafx.fxml, org.hibernate.orm.core;
 
 
 }

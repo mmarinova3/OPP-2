@@ -7,7 +7,6 @@ public class Session {
     private User user;
 
     private Session() {
-        // Private constructor to prevent instantiation.
     }
 
     public static Session getInstance() {

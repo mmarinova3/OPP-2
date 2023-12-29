@@ -1,5 +1,6 @@
 package com.winery.controllers;
 
+import com.winery.accessControl.AccessController;
 import com.winery.entities.*;
 import com.winery.service.GrapeVarietyService;
 import com.winery.utils.Connection;
@@ -19,44 +20,56 @@ import java.util.stream.Collectors;
 public class GrapeRegisterController {
 
     @FXML
+    private Label eventMessage;
+    @FXML
     private TextField newGrapeName;
     @FXML
     private TextField newQuantity;
     @FXML
     private ComboBox<String> newCategory;
-
     @FXML
     private TableView<GrapeVariety> grapeVarietyTableView;
-
     @FXML
     private TableColumn<GrapeVariety, Integer> idColumn;
-
     @FXML
     private TableColumn<GrapeVariety, String> grapeNameColumn;
-
     @FXML
     private TableColumn<GrapeVariety, GrapeCategory> categoryColumn;
-
     @FXML
     private TableColumn<GrapeVariety, Double> quantityColumn;
-    private GrapeVarietyService grapeVarietyService;
+    @FXML
+    private Button editButton;
+    @FXML
+    private Button deleteButton;
+
+    private final AccessController accessController;
+    private final GrapeVarietyService grapeVarietyService;
 
     public GrapeRegisterController() {
         this.grapeVarietyService = GrapeVarietyService.getInstance(Connection.getEntityManager(), Session.getInstance());
+        this.accessController = new AccessController(Session.getInstance().getUser());
     }
 
     @FXML
     public void initialize() {
         setComboBoxItems();
+        accessCheck();
 
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         grapeNameColumn.setCellValueFactory(new PropertyValueFactory<>("grapeName"));
         categoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
-        // Fetch the data and set it to the TableView
         List<GrapeVariety> grapeVarieties = grapeVarietyService.getAll();
         grapeVarietyTableView.getItems().addAll(grapeVarieties);
+
+        grapeVarietyTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                updateFieldsWithSelectedRow(newValue);
+            } else {
+                clearInputFields();
+            }
+        });
     }
 
     private void setComboBoxItems() {
@@ -74,9 +87,17 @@ public class GrapeRegisterController {
     private void registerGrapeVariety() {
         String grapeName = newGrapeName.getText();
         String category = newCategory.getValue();
-        double quantity = Double.parseDouble(newQuantity.getText());
+        double quantity;
+
+        try {
+            quantity = Double.parseDouble(newQuantity.getText());
+        } catch (NumberFormatException e) {
+            eventMessage.setText("Invalid quantity format");
+            return;
+        }
 
         if (grapeName.isEmpty() || category == null || quantity == 0) {
+            eventMessage.setText("Please fill in all fields");
             return;
         }
 
@@ -85,7 +106,79 @@ public class GrapeRegisterController {
         grapeVariety.setCategory(GrapeCategory.valueOf(category));
         grapeVariety.setQuantity(quantity);
 
-        System.out.println(grapeVariety.getGrapeName()+grapeVariety.getCategory()+grapeVariety.getQuantity());
         grapeVarietyService.save(grapeVariety);
+        grapeVarietyTableView.getItems().add(grapeVariety);
+        clearInputFields();
+        eventMessage.setText("New grape variety successfully added");
+    }
+
+
+    private void updateFieldsWithSelectedRow(GrapeVariety selectedGrapeVariety) {
+        newGrapeName.setText(selectedGrapeVariety.getGrapeName());
+        newCategory.setValue(selectedGrapeVariety.getCategory().name());
+        newQuantity.setText(String.valueOf(selectedGrapeVariety.getQuantity()));
+    }
+
+    private void clearInputFields() {
+        newGrapeName.clear();
+        newCategory.getSelectionModel().clearSelection();
+        newQuantity.clear();
+    }
+
+    @FXML
+    private void updateSelectedGrapeVariety() {
+        GrapeVariety selectedGrapeVariety = grapeVarietyTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedGrapeVariety != null) {
+            String updatedName = newGrapeName.getText();
+            String updatedCategory = newCategory.getValue();
+            String updatedQuantityText = newQuantity.getText();
+
+            if (updatedName.isEmpty() || updatedCategory == null || updatedQuantityText.isEmpty()) {
+                eventMessage.setText("Please fill in all fields for the update");
+                return;
+            }
+
+            try {
+                GrapeCategory category = GrapeCategory.valueOf(updatedCategory);
+                double updatedQuantity = Double.parseDouble(updatedQuantityText);
+
+                selectedGrapeVariety.setGrapeName(updatedName);
+                selectedGrapeVariety.setCategory(category);
+                selectedGrapeVariety.setQuantity(updatedQuantity);
+
+                grapeVarietyService.update(selectedGrapeVariety, new String[]{updatedName, String.valueOf(category), String.valueOf(updatedQuantity)});
+                grapeVarietyTableView.refresh();
+                eventMessage.setText("Grape variety successfully updated");
+            } catch (NumberFormatException e) {
+                eventMessage.setText("Error: Invalid quantity format");
+            } catch (IllegalArgumentException e) {
+                eventMessage.setText("Error: Invalid grape category");
+            }
+        } else {
+            eventMessage.setText("Please select a row to update");
+        }
+    }
+
+    @FXML
+    private void deleteSelectedGrapeVariety() {
+
+        GrapeVariety selectedGrapeVariety = grapeVarietyTableView.getSelectionModel().getSelectedItem();
+
+        if (selectedGrapeVariety != null) {
+            grapeVarietyService.delete(selectedGrapeVariety);
+            grapeVarietyTableView.getItems().remove(selectedGrapeVariety);
+            grapeVarietyTableView.refresh();
+            eventMessage.setText("Grape variety successfully deleted");
+        } else {
+            eventMessage.setText("Please select a row to delete");
+        }
+    }
+
+    private void accessCheck(){
+       if(!accessController.checkAdminOrOperatorAccess()){
+           editButton.setDisable(true);
+           deleteButton.setDisable(true);
+       }
     }
 }

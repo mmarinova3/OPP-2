@@ -2,7 +2,6 @@ package com.winery.service;
 
 import com.winery.dao.BottleDao;
 import com.winery.entities.Bottle;
-import com.winery.entities.User;
 import com.winery.utils.Session;
 import jakarta.persistence.EntityManager;
 
@@ -51,6 +50,7 @@ public class BottleService {
     public Integer findIdByVolume(Double volume) {
         return bottleDao.findIdByVolume(volume);
     }
+
 
 
 }
