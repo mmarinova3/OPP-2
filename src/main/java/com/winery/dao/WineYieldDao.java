@@ -1,9 +1,9 @@
 package com.winery.dao;
 
+import com.winery.entities.GrapeCategory;
+import com.winery.entities.GrapeVariety;
 import com.winery.entities.WineYield;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
-import jakarta.persistence.TypedQuery;
+import jakarta.persistence.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -82,6 +82,19 @@ public class WineYieldDao implements Dao<WineYield> {
                 transaction.rollback();
                 log.error("Wine yield delete error: " + e.getMessage(), e);
             }
+        }
+    }
+
+    public Double findYieldPerKgById(GrapeVariety grape) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.yieldPerKg FROM WineYield r WHERE r.grape = :id");
+            query.setParameter("id", grape);
+            return (Double) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            log.error("Error finding yield: " + e.getMessage(), e);
+            return null;
         }
     }
 }

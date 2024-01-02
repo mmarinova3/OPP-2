@@ -95,4 +95,46 @@ public class GrapeVarietyDao implements Dao<GrapeVariety> {
             return null;
         }
     }
+
+    public Double findQuantityById(int grapeVariety) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.quantity FROM GrapeVariety r WHERE r.id = :id");
+            query.setParameter("id", grapeVariety);
+            return (Double) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            log.error("Error finding quantity: " + e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public Double getAndUpdateQuantityInStockById(int id, double grapeUsed) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.quantity FROM GrapeVariety r WHERE r.id = :id");
+            query.setParameter("id", id);
+            Double currentQuantity = (Double) query.getSingleResult();
+
+            if (currentQuantity != null && currentQuantity >= grapeUsed) {
+               double newQuantity = currentQuantity - grapeUsed;
+                entityManager.getTransaction().begin();
+                Query updateQuery = entityManager.createQuery("UPDATE GrapeVariety r SET r.quantity = :newQuantity WHERE r.id = :id");
+                updateQuery.setParameter("newQuantity", newQuantity);
+                updateQuery.setParameter("id", id);
+                updateQuery.executeUpdate();
+                entityManager.getTransaction().commit();
+
+                return newQuantity;
+            } else {
+                log.error("Not enough stock for operation");
+                return null;
+            }
+        } catch (NoResultException e) {
+            log.error("Grape not found: " + e.getMessage(), e);
+            return null;
+        } catch (Exception e) {
+            log.error("Error updating Grape quantity: " + e.getMessage(), e);
+            return null;
+        }
+    }
 }

@@ -4,6 +4,7 @@ import com.winery.accessControl.AccessController;
 import com.winery.entities.GrapeVariety;
 import com.winery.entities.WineComposition;
 import com.winery.entities.WineComponents;
+import com.winery.entities.WineYield;
 import com.winery.service.GrapeVarietyService;
 import com.winery.service.WineComponentsService;
 import com.winery.service.WineCompositionService;
@@ -53,6 +54,7 @@ public class WineComponentsController {
 
     @FXML
     public void initialize() {
+
         setComboBoxWine();
         setComboBoxGrape();
         accessCheck();
@@ -79,6 +81,7 @@ public class WineComponentsController {
         });
         wineComponentsTableView.getSortOrder().add(wineNameColumn);
         wineComponentsTableView.sort();
+
     }
     private void updateFieldsWithSelectedRow(WineComponents selectedWineComponents) {
         WineComposition selectedComposition = selectedWineComponents.getWineComposition();
@@ -224,4 +227,16 @@ public class WineComponentsController {
             deleteButton.setDisable(true);
         }
     }
+
+
+    public void countMaxCompositionCanBeMade(){
+        WineComposition wineComposition =new WineComposition();
+        WineComponents selectedWineComponents = wineComponentsTableView.getSelectionModel().getSelectedItem();
+        String wineName = selectedWineComponents.getWineComposition().getWineName();
+        wineComposition.setWineName(wineName);
+        wineComposition.setId(selectedWineComponents.getWineComposition().getId());
+        OptimalBottling ob = new OptimalBottling();
+        ob.getMaxOfWineComposition(wineComposition);
+    }
+
 }

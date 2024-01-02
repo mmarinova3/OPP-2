@@ -1,6 +1,7 @@
 package com.winery.service;
 
 import com.winery.dao.WineYieldDao;
+import com.winery.entities.GrapeVariety;
 import com.winery.entities.WineYield;
 import com.winery.utils.Session;
 import jakarta.persistence.EntityManager;
@@ -43,4 +44,9 @@ public class WineYieldService {
     public void delete(WineYield wine) {
         wineYieldDao.delete(wine);
     }
+
+    public Double findYieldPerKgById(GrapeVariety grape) {
+        return wineYieldDao.findYieldPerKgById(grape);
+    }
+
 }

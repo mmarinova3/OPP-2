@@ -1,5 +1,7 @@
 package com.winery.winery_prod;
 
+import com.winery.entities.GrapeVariety;
+import com.winery.entities.WineYield;
 import com.winery.utils.Connection;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

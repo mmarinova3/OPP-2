@@ -5,6 +5,7 @@ import com.winery.entities.*;
 import com.winery.notification.CriticSituations;
 import com.winery.service.*;
 import com.winery.utils.Connection;
+import com.winery.utils.MessageBox;
 import com.winery.utils.Session;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -148,14 +149,50 @@ public class BottlingController {
         bottle.setVolume(volume);
         Integer bottleId = bottleService.findIdByVolume(bottle.getVolume());
         bottle.setId(bottleId);
+        bottle.setQuantity(bottleService.getQuantityInStockById(bottleId));
+
+        OptimalBottling optimalBottling = new OptimalBottling();
+        int bottlesToFill = optimalBottling.getOptimalBottling(wineComposition, bottle);
+        if (bottlesToFill<=0){
+            eventMessage.setText("Not enough bottles");
+            return;
+        }
+
+        double maxBottleInLitters= bottle.getQuantity()*bottle.getVolume();
+        System.out.println("Max Bottle in Liters: " + maxBottleInLitters);
+
+
+        boolean userChoice = MessageBox.showConfirmation(
+                "Optimal bottling",
+                "Optimal bottles (volume: " + bottle.getVolume() + ") to fill are " + bottlesToFill,
+                "Do you want to bottle " + bottlesToFill + " bottles?(if you click no, it will use the value which you choose)"
+        );
+
+        int newQuantity;
+        if (userChoice) {
+           newQuantity=bottlesToFill;
+        } else{newQuantity=quantity;}
+
+        if(maxBottleInLitters>optimalBottling.getMaxOfWineComposition(wineComposition)){
+            eventMessage.setText("Not enough wine");
+            return;
+        }
+
+        if (newQuantity>bottlesToFill){
+            eventMessage.setText("Not enough bottles");
+            return;
+        }
+
 
         BottledWine bottledWine = new BottledWine();
         bottledWine.setWineComposition(wineComposition);
         bottledWine.setBottle(bottle);
-        bottledWine.setQuantity(quantity);
+        bottledWine.setQuantity(newQuantity);
         bottledWine.setBottlingDate(date);
         clearInputFields();
         eventMessage.setText("Bottling added successfully");
+        optimalBottling.updateGrapeQuantity(wineComposition,bottle.getVolume()*bottledWine.getQuantity());
+        bottleService.getAndUpdateQuantityInStockById(bottleId,bottledWine.getQuantity());
         bottledWineService.save(bottledWine);
     }
 
@@ -218,6 +255,27 @@ public class BottlingController {
             editButton.setDisable(true);
             deleteButton.setDisable(true);
         }
+    }
+    @FXML
+    private void bottlingBut(){
+        String wine = wineName.getValue();
+        Double volume = bottleVolume.getValue();
+
+        WineComposition wineComposition = new WineComposition();
+        wineComposition.setWineName(wine);
+        Integer wineId = wineCompositionService.findIdByName(wineComposition.getWineName());
+        wineComposition.setId(wineId);
+
+        Bottle bottle = new Bottle();
+        bottle.setVolume(volume);
+        Integer bottleId = bottleService.findIdByVolume(bottle.getVolume());
+        bottle.setId(bottleId);
+        bottle.setQuantity(bottleService.getQuantityInStockById(bottleId));
+
+
+        OptimalBottling ob = new OptimalBottling();
+        ob.getOptimalBottling(wineComposition,bottle);
+
     }
 
 }

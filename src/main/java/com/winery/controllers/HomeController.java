@@ -3,6 +3,7 @@ package com.winery.controllers;
 import com.winery.accessControl.AccessController;
 import com.winery.entities.User;
 import com.winery.notification.CriticSituations;
+import com.winery.utils.MessageBox;
 import com.winery.utils.SceneNavigator;
 import com.winery.utils.Session;
 import com.winery.winery_prod.Main;
@@ -57,7 +58,7 @@ public class HomeController {
     @FXML
     private void openCreateUserScene() {
         if(!accessController.checkAdminAccess()) {
-           accessController.showMessage("UnauthorizedAccess","Insufficient privileges for the operation");
+           MessageBox.showMessage("UnauthorizedAccess","Insufficient privileges for the operation");
         }else{
             SceneNavigator.navigateTo("/com/winery/winery_prod/input-fxml/create-user.fxml", mainAnchor);
         }

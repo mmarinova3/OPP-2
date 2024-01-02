@@ -47,4 +47,9 @@ public class GrapeVarietyService {
     public Integer findIdByName(String grapeName) {
         return grapeVarietyDao.findIdByName(grapeName);
     }
+    public Double findQuantityById(int grapeId) {
+        return grapeVarietyDao.findQuantityById(grapeId);
+    }
+    public void updateQuantityInStockById(int id, double grapeUsed) {grapeVarietyDao.getAndUpdateQuantityInStockById(id,grapeUsed);}
+
 }

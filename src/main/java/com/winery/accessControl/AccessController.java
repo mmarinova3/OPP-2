@@ -16,13 +16,7 @@ public class AccessController {
         return currentUser.getRoleName().equals("ADMIN") || currentUser.getRoleName().equals("OPERATOR");
 
     }
-    public void showMessage(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
+
 
     public boolean checkAdminAccess() {
         return currentUser.getRoleName().equals("ADMIN");

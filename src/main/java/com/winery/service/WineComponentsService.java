@@ -43,4 +43,6 @@ public class WineComponentsService {
     public void delete(WineComponents wineComponents) {
         wineComponentsDao.delete(wineComponents);
     }
+
+    public List<WineComponents> findComponents(String compositionName){ return wineComponentsDao.findComponents(compositionName);}
 }

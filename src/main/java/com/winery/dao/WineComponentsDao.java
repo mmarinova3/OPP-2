@@ -1,6 +1,7 @@
 package com.winery.dao;
 
 import com.winery.entities.WineComponents;
+import com.winery.entities.WineComposition;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
 import jakarta.persistence.TypedQuery;
@@ -84,4 +85,15 @@ public class WineComponentsDao implements Dao<WineComponents> {
             }
         }
     }
+
+    public List<WineComponents> findComponents(String compositionName){
+        try {
+            TypedQuery<WineComponents> query = entityManager.createQuery("SELECT r.grape, r.quantityNeeded FROM WineComponents r WHERE r.wineName = :wineName", WineComponents.class);
+            return query.getResultList();
+        } catch (Exception e) {
+            log.error("Wine composition get components error: " + e.getMessage(), e);
+            return List.of();
+        }
+    }
+
 }

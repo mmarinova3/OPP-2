@@ -27,30 +27,22 @@ public class BottleService {
     public Optional<Bottle> getById(int Id) {
         return bottleDao.get(Id);
     }
-
     public List<Bottle> getAll() {
         return bottleDao.getAll();
     }
-
-    public void save(Bottle bottle){ bottleDao.save(bottle);
-    }
-
+    public void save(Bottle bottle){ bottleDao.save(bottle);}
     public void update(Bottle bottle, String[] params) {
         bottleDao.update(bottle, params);
     }
-
     public void delete(Bottle bottle) {
         bottleDao.delete(bottle);
     }
-
     public boolean existsByVolume(double volume) {
         return bottleDao.existsByVolume(volume);
     }
-
     public Integer findIdByVolume(Double volume) {
         return bottleDao.findIdByVolume(volume);
     }
-
-
-
+    public Integer getQuantityInStockById(int id){return bottleDao.getQuantityInStockById(id);}
+    public void getAndUpdateQuantityInStockById(int id, int bottlesUsed){bottleDao.getAndUpdateQuantityInStockById(id,bottlesUsed);}
 }

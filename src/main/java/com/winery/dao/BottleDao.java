@@ -107,4 +107,48 @@ public class BottleDao implements Dao<Bottle> {
             return null;
         }
     }
+
+    public Integer getQuantityInStockById(int id) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.quantity FROM Bottle r WHERE r.id = :id");
+            query.setParameter("id", id);
+            return (Integer) query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (Exception e) {
+            log.error("Error finding Bottle in stock by id: " + e.getMessage(), e);
+            return null;
+        }
+    }
+
+    public Integer getAndUpdateQuantityInStockById(int id, int bottlesUsed) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.quantity FROM Bottle r WHERE r.id = :id");
+            query.setParameter("id", id);
+            Integer currentQuantity = (Integer) query.getSingleResult();
+
+            if (currentQuantity != null && currentQuantity >= bottlesUsed) {
+                int newQuantity = currentQuantity - bottlesUsed;
+                entityManager.getTransaction().begin();
+                Query updateQuery = entityManager.createQuery("UPDATE Bottle r SET r.quantity = :newQuantity WHERE r.id = :id");
+                updateQuery.setParameter("newQuantity", newQuantity);
+                updateQuery.setParameter("id", id);
+                updateQuery.executeUpdate();
+                entityManager.getTransaction().commit();
+
+                return newQuantity;
+            } else {
+                log.error("Not enough stock for operation");
+                return null;
+            }
+        } catch (NoResultException e) {
+            log.error("Bottle not found: " + e.getMessage(), e);
+            return null;
+        } catch (Exception e) {
+            log.error("Error updating Bottle quantity: " + e.getMessage(), e);
+            return null;
+        }
+    }
+
+
 }
