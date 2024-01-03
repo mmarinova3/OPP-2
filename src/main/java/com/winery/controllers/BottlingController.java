@@ -194,6 +194,8 @@ public class BottlingController {
         optimalBottling.updateGrapeQuantity(wineComposition,bottle.getVolume()*bottledWine.getQuantity());
         bottleService.getAndUpdateQuantityInStockById(bottleId,bottledWine.getQuantity());
         bottledWineService.save(bottledWine);
+        bottledWineTableView.getItems().add(bottledWine);
+        bottledWineTableView.refresh();
     }
 
     @FXML
