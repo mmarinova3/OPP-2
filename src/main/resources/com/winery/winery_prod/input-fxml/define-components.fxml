@@ -42,5 +42,6 @@
             <TableColumn fx:id="quantityNeededColumn" prefWidth="94.0" text="Quntity needed" />
         </columns>
       </TableView>
+      <Button layoutX="114.0" layoutY="466.0" mnemonicParsing="false" onAction="#countMaxCompositionCanBeMade" text="Button" />
    </children>
 </AnchorPane>

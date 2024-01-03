@@ -5,6 +5,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -40,5 +41,7 @@
             <Font name="Arial Rounded MT Bold" size="32.0" />
          </font>
       </Text>
+      <TextArea fx:id="showLitersInStock" layoutX="25.0" layoutY="487.0" prefHeight="55.0" prefWidth="200.0" />
+      <Button layoutX="25.0" layoutY="452.0" mnemonicParsing="false" onAction="#getLitersWineInStock" text="Count" />
    </children>
 </AnchorPane>

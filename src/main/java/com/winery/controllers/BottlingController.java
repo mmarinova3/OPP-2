@@ -173,10 +173,11 @@ public class BottlingController {
            newQuantity=bottlesToFill;
         } else{newQuantity=quantity;}
 
-        if(maxBottleInLitters>optimalBottling.getMaxOfWineComposition(wineComposition)){
+        /*
+        if(maxBottleInLitters<optimalBottling.getMaxOfWineComposition(wineComposition)){
             eventMessage.setText("Not enough wine");
             return;
-        }
+        }*/
 
         if (newQuantity>bottlesToFill){
             eventMessage.setText("Not enough bottles");

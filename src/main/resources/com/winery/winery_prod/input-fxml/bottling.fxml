@@ -50,7 +50,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Button fx:id="editButton" layoutX="68.0" layoutY="376.0" mnemonicParsing="false" onAction="#updateSelectedBottledWine" prefHeight="25.0" prefWidth="150.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Update" />
-      <Button fx:id="deleteButton" layoutX="69.0" layoutY="417.0" mnemonicParsing="false" onAction="#deleteSelectedBottledWine" prefHeight="25.0" prefWidth="150.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
+      <Button fx:id="deleteButton" layoutX="68.0" layoutY="372.0" mnemonicParsing="false" onAction="#deleteSelectedBottledWine" prefHeight="25.0" prefWidth="150.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
    </children>
 </AnchorPane>
