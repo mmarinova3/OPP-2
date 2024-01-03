@@ -197,45 +197,6 @@ public class BottlingController {
     }
 
     @FXML
-    private void updateSelectedBottledWine() {
-        BottledWine selectedBottledWine=bottledWineTableView.getSelectionModel().getSelectedItem();
-
-        if (selectedBottledWine != null) {
-            String updatedWineName = wineName.getValue();
-            double updatedVolumeBottle = bottleVolume.getValue();
-            int updatedUsedBottles = Integer.parseInt(quantityBottled.getText());
-            Date updatedDate = Date.valueOf(bottlingDate.getValue());
-
-            if (updatedWineName.isEmpty() || updatedVolumeBottle == 0 || updatedUsedBottles == 0) {
-                eventMessage.setText("Please fill in field for the update");
-                return;
-            }
-
-            WineComposition wineComposition = new WineComposition();
-            wineComposition.setWineName(updatedWineName);
-            Integer wineId = wineCompositionService.findIdByName(wineComposition.getWineName());
-            wineComposition.setId(wineId);
-
-            Bottle bottle = new Bottle();
-            bottle.setVolume(updatedVolumeBottle);
-            Integer bottleId = bottleService.findIdByVolume(updatedVolumeBottle);
-            bottle.setId(bottleId);
-
-            selectedBottledWine.setWineComposition(wineComposition);
-            selectedBottledWine.setBottle(bottle);
-            selectedBottledWine.setQuantity(updatedUsedBottles);
-            selectedBottledWine.setBottlingDate(updatedDate);
-
-            bottledWineService.update(selectedBottledWine, new String[]{String.valueOf(wineComposition.getId()), String.valueOf(bottle.getId()), String.valueOf(updatedUsedBottles), String.valueOf(updatedDate)});
-            bottledWineTableView.refresh();
-            eventMessage.setText("Successfully updated");
-
-        } else {
-            eventMessage.setText("Please select a row to update");
-        }
-    }
-
-    @FXML
     private void deleteSelectedBottledWine() {
 
       BottledWine selectedBottledWine=bottledWineTableView.getSelectionModel().getSelectedItem();
@@ -256,6 +217,7 @@ public class BottlingController {
             deleteButton.setDisable(true);
         }
     }
+    /*
     @FXML
     private void bottlingBut(){
         String wine = wineName.getValue();
@@ -278,5 +240,7 @@ public class BottlingController {
 
     }
 
+
+     */
 }
 
