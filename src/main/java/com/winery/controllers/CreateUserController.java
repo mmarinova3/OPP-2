@@ -5,6 +5,8 @@ import com.winery.service.RoleService;
 import com.winery.service.UserService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -176,10 +178,18 @@ public class CreateUserController {
         User selectedUser = userTableView.getSelectionModel().getSelectedItem();
 
         if (selectedUser != null) {
-            userService.delete(selectedUser);
-            userTableView.getItems().remove(selectedUser);
-            userTableView.refresh();
-            eventMessage.setText("User successfully deleted");
+            try{
+              userService.delete(selectedUser);
+              userTableView.getItems().remove(selectedUser);
+              userTableView.refresh();
+              eventMessage.setText("User successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the user. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the user.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }

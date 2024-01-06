@@ -5,6 +5,8 @@ import com.winery.entities.WineComposition;
 import com.winery.service.WineCompositionService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -128,10 +130,18 @@ public class CompositionRegisterController {
         WineComposition selectedWineComposition = wineCompositionTableView.getSelectionModel().getSelectedItem();
 
         if (selectedWineComposition != null) {
-            wineCompositionService.delete(selectedWineComposition);
-            wineCompositionTableView.getItems().remove(selectedWineComposition);
-            wineCompositionTableView.refresh();
-            eventMessage.setText("Wine composition successfully deleted");
+            try{
+              wineCompositionService.delete(selectedWineComposition);
+              wineCompositionTableView.getItems().remove(selectedWineComposition);
+              wineCompositionTableView.refresh();
+              eventMessage.setText("Wine composition successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the wine composition. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the wine composition.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }

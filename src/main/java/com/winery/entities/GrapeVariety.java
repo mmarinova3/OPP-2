@@ -24,6 +24,7 @@ public class GrapeVariety {
     @Column(name = "quantity", nullable = false)
     private Double quantity;
 
+
     public String getGrapeName() {
         return grapeName;
     }

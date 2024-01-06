@@ -26,7 +26,7 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 506, 312);
         primaryStage.setTitle("Winery Production");
-        primaryStage.setResizable(false);
+        primaryStage.setResizable(true);
         primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();

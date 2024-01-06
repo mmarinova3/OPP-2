@@ -73,8 +73,11 @@ public class BottleDao implements Dao<Bottle> {
         try {
             transaction.begin();
             entityManager.remove(bottle);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("Error deleting Bottle: " + e.getMessage(), e);

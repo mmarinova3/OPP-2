@@ -7,6 +7,8 @@ import com.winery.service.WineComponentsService;
 import com.winery.service.WineYieldService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -138,7 +140,6 @@ public class DefineGrapeController {
 
     @FXML
     private void updateSelectedWineYield() {
-        //grapeVarietyComboBox.setDisable(true);
         WineYield selectedWineYield = wineYieldTableView.getSelectionModel().getSelectedItem();
 
         if (selectedWineYield != null) {
@@ -174,10 +175,18 @@ public class DefineGrapeController {
         WineYield selectedWineYield = wineYieldTableView.getSelectionModel().getSelectedItem();
 
         if (selectedWineYield != null) {
-            wineYieldService.delete(selectedWineYield);
-            wineYieldTableView.getItems().remove(selectedWineYield);
-            wineYieldTableView.refresh();
-            eventMessage.setText("Successfully deleted");
+            try{
+              wineYieldService.delete(selectedWineYield);
+              wineYieldTableView.getItems().remove(selectedWineYield);
+              wineYieldTableView.refresh();
+              eventMessage.setText("Successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the definition. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the definition.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }

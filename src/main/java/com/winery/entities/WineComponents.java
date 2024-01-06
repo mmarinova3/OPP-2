@@ -11,12 +11,12 @@ import jakarta.persistence.*;
 public class WineComponents {
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "grape_id", nullable = false)
     private GrapeVariety grape;
 
     @Id
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "wine_id", nullable = false)
     private WineComposition wineComposition;
 

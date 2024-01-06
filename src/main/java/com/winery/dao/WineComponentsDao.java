@@ -1,9 +1,9 @@
 package com.winery.dao;
 
 import com.winery.entities.WineComponents;
-import com.winery.entities.WineComposition;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -77,8 +77,11 @@ public class WineComponentsDao implements Dao<WineComponents> {
         try {
             transaction.begin();
             entityManager.remove(wineComponents);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("Wine composition delete error: " + e.getMessage(), e);

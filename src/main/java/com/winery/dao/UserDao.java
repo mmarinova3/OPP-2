@@ -58,8 +58,11 @@ public class UserDao implements Dao<User> {
         try {
             transaction.begin();
             entityManager.merge(user);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("User update error: " + e.getMessage(), e);

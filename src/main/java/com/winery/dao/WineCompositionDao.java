@@ -73,8 +73,11 @@ public class WineCompositionDao implements Dao<WineComposition> {
         try {
             transaction.begin();
             entityManager.remove(wineComposition);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("Wine composition delete error: " + e.getMessage(), e);

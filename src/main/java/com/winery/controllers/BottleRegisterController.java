@@ -5,6 +5,8 @@ import com.winery.entities.Bottle;
 import com.winery.service.BottleService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -130,10 +132,18 @@ public class BottleRegisterController {
         Bottle selectedBottle = bottleTableView.getSelectionModel().getSelectedItem();
 
         if (selectedBottle != null) {
-            bottleService.delete(selectedBottle);
-            bottleTableView.getItems().remove(selectedBottle);
-            bottleTableView.refresh();
-            eventMessage.setText("Bottle successfully deleted");
+            try{
+               bottleService.delete(selectedBottle);
+               bottleTableView.getItems().remove(selectedBottle);
+               bottleTableView.refresh();
+               eventMessage.setText("Bottle successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the bottle. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the bottle.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }

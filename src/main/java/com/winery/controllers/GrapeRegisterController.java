@@ -5,6 +5,8 @@ import com.winery.entities.*;
 import com.winery.service.GrapeVarietyService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -162,18 +164,27 @@ public class GrapeRegisterController {
 
     @FXML
     private void deleteSelectedGrapeVariety() {
-
         GrapeVariety selectedGrapeVariety = grapeVarietyTableView.getSelectionModel().getSelectedItem();
 
         if (selectedGrapeVariety != null) {
-            grapeVarietyService.delete(selectedGrapeVariety);
-            grapeVarietyTableView.getItems().remove(selectedGrapeVariety);
-            grapeVarietyTableView.refresh();
-            eventMessage.setText("Grape variety successfully deleted");
+            try {
+                grapeVarietyService.delete(selectedGrapeVariety);
+                grapeVarietyTableView.getItems().remove(selectedGrapeVariety);
+                grapeVarietyTableView.refresh();
+                eventMessage.setText("Grape variety successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the grape variety. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the grape variety.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }
     }
+
+
 
     private void accessCheck(){
        if(!accessController.checkAdminOrOperatorAccess()){

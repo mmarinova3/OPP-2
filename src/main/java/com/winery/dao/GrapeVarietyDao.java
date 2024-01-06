@@ -69,13 +69,16 @@ public class GrapeVarietyDao implements Dao<GrapeVariety> {
     }
 
     @Override
-    public void delete(GrapeVariety grapeVariety) {
+    public void delete(GrapeVariety grapeVariety) throws PersistenceException {
         EntityTransaction transaction = entityManager.getTransaction();
         try {
             transaction.begin();
             entityManager.remove(grapeVariety);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("Grape variety delete error: " + e.getMessage(), e);
@@ -109,7 +112,7 @@ public class GrapeVarietyDao implements Dao<GrapeVariety> {
         }
     }
 
-    public Double getAndUpdateQuantityInStockById(int id, double grapeUsed) {
+    public void getAndUpdateQuantityInStockById(int id, double grapeUsed) {
         try {
             Query query = entityManager.createQuery("SELECT r.quantity FROM GrapeVariety r WHERE r.id = :id");
             query.setParameter("id", id);
@@ -124,17 +127,13 @@ public class GrapeVarietyDao implements Dao<GrapeVariety> {
                 updateQuery.executeUpdate();
                 entityManager.getTransaction().commit();
 
-                return newQuantity;
             } else {
                 log.error("Not enough stock for operation");
-                return null;
             }
         } catch (NoResultException e) {
             log.error("Grape not found: " + e.getMessage(), e);
-            return null;
         } catch (Exception e) {
             log.error("Error updating Grape quantity: " + e.getMessage(), e);
-            return null;
         }
     }
 }

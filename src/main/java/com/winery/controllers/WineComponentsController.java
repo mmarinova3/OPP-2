@@ -4,12 +4,13 @@ import com.winery.accessControl.AccessController;
 import com.winery.entities.GrapeVariety;
 import com.winery.entities.WineComposition;
 import com.winery.entities.WineComponents;
-import com.winery.entities.WineYield;
 import com.winery.service.GrapeVarietyService;
 import com.winery.service.WineComponentsService;
 import com.winery.service.WineCompositionService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -212,10 +213,18 @@ public class WineComponentsController {
         WineComponents selectedWineComponents = wineComponentsTableView.getSelectionModel().getSelectedItem();
 
         if (selectedWineComponents != null) {
-            wineComponentsService.delete(selectedWineComponents);
-            wineComponentsTableView.getItems().remove(selectedWineComponents);
-            wineComponentsTableView.refresh();
-            eventMessage.setText("Successfully deleted");
+            try{
+              wineComponentsService.delete(selectedWineComponents);
+              wineComponentsTableView.getItems().remove(selectedWineComponents);
+              wineComponentsTableView.refresh();
+              eventMessage.setText("Successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the wine component. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the wine component.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }

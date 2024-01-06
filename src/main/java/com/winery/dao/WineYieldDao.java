@@ -1,6 +1,5 @@
 package com.winery.dao;
 
-import com.winery.entities.GrapeCategory;
 import com.winery.entities.GrapeVariety;
 import com.winery.entities.WineYield;
 import jakarta.persistence.*;
@@ -76,8 +75,11 @@ public class WineYieldDao implements Dao<WineYield> {
         try {
             transaction.begin();
             entityManager.remove(wineYield);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("Wine yield delete error: " + e.getMessage(), e);

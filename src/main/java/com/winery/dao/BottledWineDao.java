@@ -3,6 +3,7 @@ package com.winery.dao;
 import com.winery.entities.BottledWine;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 import jakarta.persistence.TypedQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -76,8 +77,11 @@ public class BottledWineDao implements Dao<BottledWine> {
         try {
             transaction.begin();
             entityManager.remove(bottledWine);
+            entityManager.flush();
             transaction.commit();
-        } catch (Exception e) {
+        } catch (PersistenceException e) {
+            throw e;
+        } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();
                 log.error("Bottled wine delete error: " + e.getMessage(), e);

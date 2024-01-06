@@ -11,8 +11,9 @@ import java.util.Objects;
 })
 @Entity
 public class WineYield {
+
     @Id
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "grape_id", nullable = false)
     private GrapeVariety grape;
 

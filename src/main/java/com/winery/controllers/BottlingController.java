@@ -7,6 +7,8 @@ import com.winery.service.*;
 import com.winery.utils.Connection;
 import com.winery.utils.MessageBox;
 import com.winery.utils.Session;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.PersistenceException;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -38,8 +40,7 @@ public class BottlingController {
     private TextField quantityBottled;
     @FXML
     private DatePicker bottlingDate;
-    @FXML
-    private Button editButton;
+
     @FXML
     private Button deleteButton;
     private final AccessController accessController;
@@ -205,10 +206,18 @@ public class BottlingController {
       BottledWine selectedBottledWine=bottledWineTableView.getSelectionModel().getSelectedItem();
 
         if (selectedBottledWine != null) {
-            bottledWineService.delete(selectedBottledWine);
-            bottledWineTableView.getItems().remove(selectedBottledWine);
-            bottledWineTableView.refresh();
-            eventMessage.setText("Successfully deleted");
+            try{
+              bottledWineService.delete(selectedBottledWine);
+              bottledWineTableView.getItems().remove(selectedBottledWine);
+              bottledWineTableView.refresh();
+              eventMessage.setText("Successfully deleted");
+            } catch (EntityNotFoundException e) {
+                eventMessage.setText("Cannot delete the bottling. It does not exist.");
+            } catch (PersistenceException e) {
+                eventMessage.setText("An error occurred during the deletion process.");
+            } catch (Exception e) {
+                eventMessage.setText("An unexpected error occurred while deleting the bottling.");
+            }
         } else {
             eventMessage.setText("Please select a row to delete");
         }
@@ -216,34 +225,9 @@ public class BottlingController {
     }
     private void accessCheck(){
         if(!accessController.checkAdminOrOperatorAccess()){
-            editButton.setDisable(true);
             deleteButton.setDisable(true);
         }
     }
-    /*
-    @FXML
-    private void bottlingBut(){
-        String wine = wineName.getValue();
-        Double volume = bottleVolume.getValue();
 
-        WineComposition wineComposition = new WineComposition();
-        wineComposition.setWineName(wine);
-        Integer wineId = wineCompositionService.findIdByName(wineComposition.getWineName());
-        wineComposition.setId(wineId);
-
-        Bottle bottle = new Bottle();
-        bottle.setVolume(volume);
-        Integer bottleId = bottleService.findIdByVolume(bottle.getVolume());
-        bottle.setId(bottleId);
-        bottle.setQuantity(bottleService.getQuantityInStockById(bottleId));
-
-
-        OptimalBottling ob = new OptimalBottling();
-        ob.getOptimalBottling(wineComposition,bottle);
-
-    }
-
-
-     */
 }
 

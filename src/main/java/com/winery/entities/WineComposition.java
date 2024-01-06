@@ -1,8 +1,7 @@
 package com.winery.entities;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
+
 
 import java.io.Serializable;
 
@@ -16,7 +15,6 @@ public class WineComposition implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
-    @JdbcTypeCode(SqlTypes.INTEGER)
     private Integer id;
 
     @Column(name = "wine_name", nullable = false, length = 50)
