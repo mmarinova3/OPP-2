@@ -1,10 +1,9 @@
-package com.winery.controllers;
+package com.winery.service;
 
 import com.winery.entities.Bottle;
 import com.winery.entities.GrapeVariety;
 import com.winery.entities.WineComponents;
 import com.winery.entities.WineComposition;
-import com.winery.service.*;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
 

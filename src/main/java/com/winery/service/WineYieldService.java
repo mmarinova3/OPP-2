@@ -23,6 +23,7 @@ public class WineYieldService {
             INSTANCE = new WineYieldService(entityManager, session);
         }
         return INSTANCE;
+
     }
 
     public Optional<WineYield> getById(int Id) {

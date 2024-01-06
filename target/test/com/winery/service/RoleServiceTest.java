@@ -1,23 +1,23 @@
 package com.winery.service;
 
-import com.winery.entities.BottledWine;
+import com.winery.entities.UserRole;
 import com.winery.utils.Session;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Persistence;
 import org.junit.jupiter.api.*;
 
-import java.util.List;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-class BottledWineServiceTest {
-
+class RoleServiceTest {
     private static EntityManager entityManager;
-    private static BottledWineService bottledWineService;
+    private static RoleService roleService;
 
     @BeforeAll
     static void setUp() {
         entityManager = Persistence.createEntityManagerFactory("default").createEntityManager();
-        bottledWineService = BottledWineService.getInstance(entityManager, Session.getInstance());
+        roleService = RoleService.getInstance(entityManager, Session.getInstance());
+
     }
 
     @AfterAll
@@ -29,13 +29,8 @@ class BottledWineServiceTest {
 
 
     @Test
-    void getAll() {
-      List<BottledWine> bottledWineList=bottledWineService.getAll();
-        for (BottledWine bottledWine:bottledWineList) {
-            System.out.print(bottledWine.getWineComposition().getWineName()+"\n");
-        }
-
+    void findIdByName() {
+       int id = roleService.findIdByName(UserRole.ADMIN);
+        assertEquals(1,id );
     }
-
-
 }

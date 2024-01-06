@@ -16,6 +16,8 @@ module com.winery{
     exports com.winery.winery_prod;
     exports com.winery.controllers;
     opens com.winery.controllers to javafx.fxml, org.hibernate.orm.core;
+    exports com.winery.service;
+    opens com.winery.service to javafx.fxml, org.hibernate.orm.core;
 
 
 }
