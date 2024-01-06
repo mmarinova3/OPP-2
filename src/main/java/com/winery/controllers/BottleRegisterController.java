@@ -44,9 +44,9 @@ public class BottleRegisterController {
 
         volumeColumn.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
-
         List<Bottle> bottles = bottleService.getAll();
         bottleTableView.getItems().addAll(bottles);
+        bottleTableView.refresh();
 
         bottleTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -56,6 +56,7 @@ public class BottleRegisterController {
             }
         });
     }
+
 
     private void updateFieldsWithSelectedRow(Bottle selectedBottle) {
         volume.setText(String.valueOf(selectedBottle.getVolume()));
@@ -86,6 +87,7 @@ public class BottleRegisterController {
         bottle.setVolume(newVolume);
         bottle.setQuantity(newQuantity);
         bottleService.save(bottle);
+        bottleTableView.getItems().add(bottle);
         clearInputFields();
         eventMessage.setText("Bottle type successfully added");
     }

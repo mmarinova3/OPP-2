@@ -47,11 +47,13 @@ public class BottlingController {
     private final BottledWineService bottledWineService;
     private final WineCompositionService wineCompositionService;
     private final BottleService bottleService;
+    private final GrapeVarietyService grapeVarietyService;
 
     public BottlingController() {
         this.bottledWineService = BottledWineService.getInstance(Connection.getEntityManager(), Session.getInstance());
         this.wineCompositionService = WineCompositionService.getInstance(Connection.getEntityManager(), Session.getInstance());
         this.bottleService = BottleService.getInstance(Connection.getEntityManager(), Session.getInstance());
+        this.grapeVarietyService = GrapeVarietyService.getInstance(Connection.getEntityManager(),Session.getInstance());
         this.accessController = new AccessController(Session.getInstance().getUser());
     }
 
@@ -199,30 +201,33 @@ public class BottlingController {
         bottledWineTableView.getItems().add(bottledWine);
         bottledWineTableView.refresh();
     }
-
     @FXML
     private void deleteSelectedBottledWine() {
-
-      BottledWine selectedBottledWine=bottledWineTableView.getSelectionModel().getSelectedItem();
+        BottledWine selectedBottledWine = bottledWineTableView.getSelectionModel().getSelectedItem();
 
         if (selectedBottledWine != null) {
-            try{
-              bottledWineService.delete(selectedBottledWine);
-              bottledWineTableView.getItems().remove(selectedBottledWine);
-              bottledWineTableView.refresh();
-              eventMessage.setText("Successfully deleted");
+            try {
+                bottledWineService.delete(selectedBottledWine);
+                bottledWineTableView.getItems().remove(selectedBottledWine);
+                bottledWineTableView.refresh();
+                eventMessage.setText("Successfully deleted");
+                int bottleID=bottleService.findIdByVolume(selectedBottledWine.getBottle().getVolume());
+                bottleService.returnQuantityInStockById(bottleID,selectedBottledWine.getQuantity());
+
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the bottling. It does not exist.");
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+            } catch (IllegalArgumentException e) {
+                eventMessage.setText("An error occurred. The selected bottling is detached.");
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the bottling.");
             }
         } else {
             eventMessage.setText("Please select a row to delete");
         }
-
     }
+
     private void accessCheck(){
         if(!accessController.checkAdminOrOperatorAccess()){
             deleteButton.setDisable(true);

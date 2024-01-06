@@ -149,5 +149,27 @@ public class BottleDao implements Dao<Bottle> {
         }
     }
 
+    public void returnQuantityInStockById(int id, int bottlesMistaken) {
+        try {
+            Query query = entityManager.createQuery("SELECT r.quantity FROM Bottle r WHERE r.id = :id");
+            query.setParameter("id", id);
+            Integer currentQuantity = (Integer) query.getSingleResult();
+
+                int newQuantity = currentQuantity + bottlesMistaken;
+                entityManager.getTransaction().begin();
+                Query updateQuery = entityManager.createQuery("UPDATE Bottle r SET r.quantity = :newQuantity WHERE r.id = :id");
+                updateQuery.setParameter("newQuantity", newQuantity);
+                updateQuery.setParameter("id", id);
+                updateQuery.executeUpdate();
+                entityManager.getTransaction().commit();
+                log.info("Returned bottles" );
+
+        } catch (NoResultException e) {
+            log.error("Bottle not found: " + e.getMessage(), e);
+        } catch (Exception e) {
+            log.error("Error updating Bottle quantity: " + e.getMessage(), e);
+        }
+    }
+
 
 }

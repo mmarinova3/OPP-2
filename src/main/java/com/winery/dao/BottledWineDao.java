@@ -77,10 +77,7 @@ public class BottledWineDao implements Dao<BottledWine> {
         try {
             transaction.begin();
             entityManager.remove(bottledWine);
-            entityManager.flush();
             transaction.commit();
-        } catch (PersistenceException e) {
-            throw e;
         } catch (Throwable e) {
             if (transaction.isActive()) {
                 transaction.rollback();

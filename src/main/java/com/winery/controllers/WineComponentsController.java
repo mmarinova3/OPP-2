@@ -16,13 +16,15 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class WineComponentsController {
     @FXML
-    private Label eventMessage;
+    private Text eventMessage;
     @FXML
     private ComboBox<String> wineName;
     @FXML
@@ -89,7 +91,7 @@ public class WineComponentsController {
         wineName.setValue(selectedComposition.getWineName());
         GrapeVariety selectedGrape = selectedWineComponents.getGrape();
         grapeName.setValue(selectedGrape.getGrapeName());
-        quantityNeededColumn.setText(String.valueOf(quantityNeeded));
+        quantityNeeded.setText(String.valueOf(selectedWineComponents.getQuantityNeeded()));
     }
 
     private void clearInputFields() {
@@ -173,31 +175,27 @@ public class WineComponentsController {
         if (selectedWineComponents != null) {
             String wine = wineName.getValue();
             String grape = grapeName.getValue();
-            double quantity;
+            String quantityText = quantityNeeded.getText();
+
+            if (wine.isEmpty() && grape.isEmpty() && quantityText.isEmpty()) {
+                eventMessage.setText("Please fill in all fields for the update.");
+                return;
+            }
+
+            if (!Objects.equals(selectedWineComponents.getWineComposition().getWineName(), wine) || !Objects.equals(selectedWineComponents.getGrape().getGrapeName(), grape)) {
+                eventMessage.setText("Can not change the composition and the grape.");
+                return;
+            }
 
             try {
-                quantity = Double.parseDouble(quantityNeeded.getText());
+                double quantity = Double.parseDouble(quantityText);
+                selectedWineComponents.setQuantityNeeded(quantity);
             } catch (NumberFormatException e) {
-                eventMessage.setText("Invalid quantity format");
+                eventMessage.setText("Invalid quantity format.");
                 return;
             }
 
-            if (wine.isEmpty() && grape.isEmpty() && quantity == 0) {
-                eventMessage.setText("Please fill in all fields for the update");
-                return;
-            }
-
-            boolean compositionExists = wineComponentsTableView.getItems().stream()
-                    .anyMatch(wineComponent ->
-                            wineComponent.getWineComposition().getWineName().equals(wine) &&
-                                    wineComponent.getGrape().getGrapeName().equals(grape));
-
-            if (compositionExists) {
-                eventMessage.setText("The composition already exists");
-                return;
-            }
-
-            wineComponentsService.update(selectedWineComponents, new String[]{wine, grape, String.valueOf(quantity)});
+            wineComponentsService.update(selectedWineComponents, new String[]{wine, grape, quantityText});
             wineComponentsTableView.refresh();
             eventMessage.setText("Successfully updated");
 
@@ -235,17 +233,6 @@ public class WineComponentsController {
             editButton.setDisable(true);
             deleteButton.setDisable(true);
         }
-    }
-
-
-    public void countMaxCompositionCanBeMade(){
-        WineComposition wineComposition =new WineComposition();
-        WineComponents selectedWineComponents = wineComponentsTableView.getSelectionModel().getSelectedItem();
-        String wineName = selectedWineComponents.getWineComposition().getWineName();
-        wineComposition.setWineName(wineName);
-        wineComposition.setId(selectedWineComponents.getWineComposition().getId());
-        OptimalBottling ob = new OptimalBottling();
-        ob.getMaxOfWineComposition(wineComposition);
     }
 
 }

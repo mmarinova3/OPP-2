@@ -17,11 +17,11 @@ public class BottledWine {
     @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "wine_id", nullable = false)
     private WineComposition wineComposition;
 
-    @ManyToOne(cascade = CascadeType.REMOVE)
+    @ManyToOne
     @JoinColumn(name = "bottle_id", nullable = false)
     private Bottle bottle;
 

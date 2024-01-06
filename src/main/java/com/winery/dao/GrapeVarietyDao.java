@@ -136,4 +136,5 @@ public class GrapeVarietyDao implements Dao<GrapeVariety> {
             log.error("Error updating Grape quantity: " + e.getMessage(), e);
         }
     }
+
 }

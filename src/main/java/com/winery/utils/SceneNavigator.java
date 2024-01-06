@@ -1,5 +1,6 @@
 package com.winery.utils;
 
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
@@ -17,6 +18,7 @@ public class SceneNavigator {
             FXMLLoader loader = new FXMLLoader(SceneNavigator.class.getResource(fxmlFileName));
             Parent root = loader.load();
             mainAnchor.getChildren().setAll(root);
+
             log.info("Navigated to scene: {}", fxmlFileName);
         } catch (IOException e) {
             log.error("Error navigating to scene {}: {}", fxmlFileName, e.getMessage(), e);

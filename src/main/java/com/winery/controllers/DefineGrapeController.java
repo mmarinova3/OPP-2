@@ -13,6 +13,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.Objects;
@@ -50,6 +51,7 @@ public class DefineGrapeController {
     public void initialize() {
         setComboBoxItems();
         accessCheck();
+        showLitersInStock.setDisable(true);
 
         grapeNameColum.setCellValueFactory(cellData -> {
             GrapeVariety grape = cellData.getValue().getGrape();
@@ -64,10 +66,12 @@ public class DefineGrapeController {
         wineYieldTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 updateFieldsWithSelectedRow(newValue);
+                getLitersWineInStock();
             } else {
                 clearInputFields();
             }
         });
+
 
     }
 
@@ -197,14 +201,18 @@ public class DefineGrapeController {
     }
 
     @FXML
-    private TextArea showLitersInStock;
+    private Text showLitersInStock;
 
-    public void getLitersWineInStock(){
-        GrapeVariety grapeVariety= new GrapeVariety();
+    public void getLitersWineInStock() {
+        GrapeVariety grapeVariety = new GrapeVariety();
         WineYield wineYield = wineYieldTableView.getSelectionModel().getSelectedItem();
         grapeVariety.setId(wineYield.getGrape().getId());
+
         double result = grapeVarietyService.findQuantityById(grapeVariety.getId()) * wineYield.getYieldPerKg();
-        showLitersInStock.setText(String.valueOf(result));
+        double roundedResult = Math.round(result * 100.0) / 100.0;
+
+        showLitersInStock.setText("There is " + roundedResult + " liters of " + wineYield.getGrape().getGrapeName());
     }
+
 
 }

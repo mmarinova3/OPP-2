@@ -45,4 +45,5 @@ public class BottleService {
     }
     public Integer getQuantityInStockById(int id){return bottleDao.getQuantityInStockById(id);}
     public void getAndUpdateQuantityInStockById(int id, int bottlesUsed){bottleDao.getAndUpdateQuantityInStockById(id,bottlesUsed);}
+    public void returnQuantityInStockById(int id, int bottles){bottleDao.returnQuantityInStockById(id,bottles);}
 }

@@ -87,6 +87,7 @@ public class CompositionRegisterController {
        wineComposition.setWineName(compositionName);
        wineCompositionService.save(wineComposition);
        clearInputFields();
+       wineCompositionTableView.getItems().add(wineComposition);
        wineCompositionTableView.refresh();
        eventMessage.setText("New wine composition successfully added");
     }
