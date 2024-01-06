@@ -3,7 +3,6 @@ package com.winery.controllers;
 import com.winery.accessControl.AccessController;
 import com.winery.entities.*;
 import com.winery.service.GrapeVarietyService;
-import com.winery.service.WineComponentsService;
 import com.winery.service.WineYieldService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
@@ -39,14 +38,12 @@ public class DefineGrapeController {
     private final AccessController accessController;
     private final WineYieldService wineYieldService;
     private final GrapeVarietyService grapeVarietyService;
-    private final WineComponentsService wineComponentsService;
 
 
     public DefineGrapeController() {
         this.wineYieldService = WineYieldService.getInstance(Connection.getEntityManager(), Session.getInstance());
         this.grapeVarietyService = GrapeVarietyService.getInstance(Connection.getEntityManager(), Session.getInstance());
         this.accessController = new AccessController(Session.getInstance().getUser());
-        this.wineComponentsService = WineComponentsService.getInstance(Connection.getEntityManager(), Session.getInstance());
     }
 
     @FXML

@@ -15,7 +15,6 @@ public class WineComponents {
     @JoinColumn(name = "grape_id", nullable = false)
     private GrapeVariety grape;
 
-    @Id
     @ManyToOne(cascade = CascadeType.REMOVE)
     @JoinColumn(name = "wine_id", nullable = false)
     private WineComposition wineComposition;
