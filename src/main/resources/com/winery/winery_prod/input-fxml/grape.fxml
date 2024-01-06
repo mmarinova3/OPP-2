@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -39,7 +40,10 @@
          </columnResizePolicy>
       </TableView>
       <Button fx:id="editButton" layoutX="68.0" layoutY="287.0" mnemonicParsing="false" onAction="#updateSelectedGrapeVariety" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Update" />
-      <Label fx:id="eventMessage" layoutX="69.0" layoutY="365.0" prefHeight="17.0" prefWidth="246.0" textFill="#bc1111" />
+      <Label fx:id="eventMessage" layoutX="69.0" layoutY="365.0" prefHeight="17.0" prefWidth="246.0" textFill="#bc1111">
+         <tooltip>
+            <Tooltip fx:id="eventMessageTooltip" />
+         </tooltip></Label>
       <Button fx:id="deleteButton" layoutX="67.0" layoutY="325.0" mnemonicParsing="false" onAction="#deleteSelectedGrapeVariety" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
       <Label layoutX="105.0" layoutY="21.0" text="Grape Variety Management" textFill="#9d0208">
          <font>

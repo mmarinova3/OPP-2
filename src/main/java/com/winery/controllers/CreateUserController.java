@@ -22,10 +22,10 @@ public class CreateUserController {
 
     @FXML
     private TextField newUsername;
-
+    @FXML
+    private Tooltip eventMessageTooltip;
     @FXML
     private PasswordField newPassword;
-
     @FXML
     private ComboBox<String> newRole;
     @FXML
@@ -108,6 +108,7 @@ public class CreateUserController {
 
         if (username.isEmpty() || password.isEmpty() || roleName == null) {
             eventMessage.setText("Please fill in fields ");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
 
         boolean nameExists = userTableView.getItems().stream()
@@ -116,6 +117,7 @@ public class CreateUserController {
 
         if (nameExists) {
             eventMessage.setText(username+" already exists");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -135,6 +137,7 @@ public class CreateUserController {
         userTableView.refresh();
         System.out.println("New User: " + newUser.getUsername() + ", Role ID: " + newUser.getRoleId());
         eventMessage.setText("Successfully created user");
+        eventMessageTooltip.setText(eventMessage.getText());
 
     }
     @FXML
@@ -148,6 +151,7 @@ public class CreateUserController {
 
             if (username.isEmpty() || password.isEmpty() || roleName == null) {
                 eventMessage.setText("Please fill in fields ");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
 
             boolean nameExists = userTableView.getItems().stream()
@@ -157,6 +161,7 @@ public class CreateUserController {
 
             if (nameExists) {
                 eventMessage.setText(username+" already exists");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
@@ -168,9 +173,11 @@ public class CreateUserController {
             userService.update(selectedUser, new String[]{username,password, String.valueOf(role.getId())});
             userTableView.refresh();
             eventMessage.setText("User successfully updated");
+            eventMessageTooltip.setText(eventMessage.getText());
 
         } else {
             eventMessage.setText("Please select a row to update");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
     @FXML
@@ -179,19 +186,24 @@ public class CreateUserController {
 
         if (selectedUser != null) {
             try{
-              userService.delete(selectedUser);
-              userTableView.getItems().remove(selectedUser);
-              userTableView.refresh();
-              eventMessage.setText("User successfully deleted");
+                userService.delete(selectedUser);
+                userTableView.getItems().remove(selectedUser);
+                userTableView.refresh();
+                eventMessage.setText("User successfully deleted");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the user. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the user.");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 }

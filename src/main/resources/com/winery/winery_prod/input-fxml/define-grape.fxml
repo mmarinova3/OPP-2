@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -34,7 +35,10 @@
       </TableView>
       <Button fx:id="deleteButton" layoutX="62.0" layoutY="354.0" mnemonicParsing="false" onAction="#deleteSelectedWineYield" prefHeight="33.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
       <Button fx:id="editButton" layoutX="62.0" layoutY="315.0" mnemonicParsing="false" onAction="#updateSelectedWineYield" prefHeight="33.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Edit" />
-      <Label fx:id="eventMessage" layoutX="62.0" layoutY="399.0" prefHeight="17.0" prefWidth="232.0" textFill="#bc1111" />
+      <Label fx:id="eventMessage" layoutX="62.0" layoutY="399.0" prefHeight="17.0" prefWidth="232.0" textFill="#bc1111">
+         <tooltip>
+            <Tooltip fx:id="eventMessageTooltip" />
+         </tooltip></Label>
       <Text fill="#9d0208" layoutX="42.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Amount of wine that can be produced from a kilogram of grapes" textAlignment="CENTER" wrappingWidth="607.796875">
          <font>
             <Font name="Arial Rounded MT Bold" size="32.0" />

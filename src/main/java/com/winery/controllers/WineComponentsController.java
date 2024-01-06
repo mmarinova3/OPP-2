@@ -16,7 +16,6 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Text;
 
 import java.util.List;
 import java.util.Objects;
@@ -24,7 +23,9 @@ import java.util.stream.Collectors;
 
 public class WineComponentsController {
     @FXML
-    private Text eventMessage;
+    private Label eventMessage;
+    @FXML
+    private Tooltip eventMessageTooltip;
     @FXML
     private ComboBox<String> wineName;
     @FXML
@@ -128,12 +129,14 @@ public class WineComponentsController {
         try{
               quantity = Double.parseDouble(quantityNeeded.getText());
         } catch (NumberFormatException e) {
-              eventMessage.setText("Invalid format");
-              return;
+            eventMessage.setText("Invalid format");
+            eventMessageTooltip.setText(eventMessage.getText());
+            return;
         }
 
         if ( wine == null ||grape == null || quantity == 0 ){
             eventMessage.setText("Please fill in all fields");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -154,6 +157,7 @@ public class WineComponentsController {
 
         if (compositionExists) {
             eventMessage.setText("The composition already exists");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -166,6 +170,7 @@ public class WineComponentsController {
         wineComponentsTableView.getItems().add(wineComponents);
         clearInputFields();
         eventMessage.setText("New component added successfully");
+        eventMessageTooltip.setText(eventMessage.getText());
     }
 
     @FXML
@@ -179,11 +184,13 @@ public class WineComponentsController {
 
             if (wine.isEmpty() && grape.isEmpty() && quantityText.isEmpty()) {
                 eventMessage.setText("Please fill in all fields for the update.");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
             if (!Objects.equals(selectedWineComponents.getWineComposition().getWineName(), wine) || !Objects.equals(selectedWineComponents.getGrape().getGrapeName(), grape)) {
                 eventMessage.setText("Can not change the composition and the grape.");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
@@ -192,15 +199,18 @@ public class WineComponentsController {
                 selectedWineComponents.setQuantityNeeded(quantity);
             } catch (NumberFormatException e) {
                 eventMessage.setText("Invalid quantity format.");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
             wineComponentsService.update(selectedWineComponents, new String[]{wine, grape, quantityText});
             wineComponentsTableView.refresh();
             eventMessage.setText("Successfully updated");
+            eventMessageTooltip.setText(eventMessage.getText());
 
         } else {
             eventMessage.setText("Please select a row to update");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 
@@ -212,19 +222,24 @@ public class WineComponentsController {
 
         if (selectedWineComponents != null) {
             try{
-              wineComponentsService.delete(selectedWineComponents);
-              wineComponentsTableView.getItems().remove(selectedWineComponents);
-              wineComponentsTableView.refresh();
-              eventMessage.setText("Successfully deleted");
+                wineComponentsService.delete(selectedWineComponents);
+                wineComponentsTableView.getItems().remove(selectedWineComponents);
+                wineComponentsTableView.refresh();
+                eventMessage.setText("Successfully deleted");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the wine component. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the wine component.");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 

@@ -5,6 +5,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -23,7 +24,10 @@
       <Button layoutX="67.0" layoutY="211.0" mnemonicParsing="false" onAction="#registerBottle" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Register" />
       <Button fx:id="deleteButton" layoutX="67.0" layoutY="286.0" mnemonicParsing="false" onAction="#deleteSelectedBottle" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Delete" />
       <Button fx:id="editButton" layoutX="67.0" layoutY="249.0" mnemonicParsing="false" onAction="#updateSelectedBottle" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Update" />
-      <Label fx:id="eventMessage" layoutX="67.0" layoutY="330.0" prefHeight="17.0" prefWidth="219.0" textFill="#bc1111" />
+      <Label fx:id="eventMessage" layoutX="67.0" layoutY="330.0" prefHeight="17.0" prefWidth="219.0" textFill="#bc1111">
+         <tooltip>
+            <Tooltip fx:id="eventMessageTooltip" />
+         </tooltip></Label>
       <TableView fx:id="bottleTableView" layoutX="323.0" layoutY="98.0" stylesheets="@../css/tableview.css">
         <columns>
           <TableColumn fx:id="volumeColumn" prefWidth="83.0" text="Volume" />

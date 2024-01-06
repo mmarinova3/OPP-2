@@ -23,6 +23,10 @@ public class DefineGrapeController {
     @FXML
     private Label eventMessage;
     @FXML
+    private Tooltip eventMessageTooltip;
+    @FXML
+    private Text showLitersInStock;
+    @FXML
     private ComboBox<String> grapeVarietyComboBox;
     @FXML
     private TextField yieldPerKG;
@@ -51,7 +55,6 @@ public class DefineGrapeController {
     public void initialize() {
         setComboBoxItems();
         accessCheck();
-        showLitersInStock.setDisable(true);
 
         grapeNameColum.setCellValueFactory(cellData -> {
             GrapeVariety grape = cellData.getValue().getGrape();
@@ -105,11 +108,14 @@ public class DefineGrapeController {
             yield = Double.parseDouble(yieldPerKG.getText());
         } catch (NumberFormatException e) {
             eventMessage.setText("Invalid format");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
         if (grapeName.isEmpty() ||  yield == 0) {
             eventMessage.setText("Please fill in all fields");
+            eventMessageTooltip.setText(eventMessage.getText());
+
             return;
         }
 
@@ -125,6 +131,8 @@ public class DefineGrapeController {
 
         if (grapeExists) {
             eventMessage.setText("Yield for the selected grape variety is already defined");
+            eventMessageTooltip.setText(eventMessage.getText());
+
             return;
         }
 
@@ -137,6 +145,8 @@ public class DefineGrapeController {
         wineYieldTableView.getItems().add(wineYield);
         clearInputFields();
         eventMessage.setText("New grape variety yield successfully added");
+        eventMessageTooltip.setText(eventMessage.getText());
+
     }
 
     @FXML
@@ -149,10 +159,14 @@ public class DefineGrapeController {
 
             if (updatedYieldPerKgText.isEmpty()) {
                 eventMessage.setText("Please fill in all fields for the update");
+                eventMessageTooltip.setText(eventMessage.getText());
+
                 return;
             }
             if (!Objects.equals(grapeVarietyName, selectedWineYield.getGrape().getGrapeName())) {
                 eventMessage.setText("Grape variety cannot be changed");
+                eventMessageTooltip.setText(eventMessage.getText());
+
                 return;
             }
             try {
@@ -162,11 +176,17 @@ public class DefineGrapeController {
                 wineYieldService.update(selectedWineYield, new String[]{grapeVarietyName, updatedYieldPerKgText});
                 wineYieldTableView.refresh();
                 eventMessage.setText("Successfully updated");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             } catch (NumberFormatException e) {
                 eventMessage.setText("Error: Invalid format");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             }
         } else {
             eventMessage.setText("Please select a row to update");
+            eventMessageTooltip.setText(eventMessage.getText());
+
         }
     }
 
@@ -181,15 +201,25 @@ public class DefineGrapeController {
               wineYieldTableView.getItems().remove(selectedWineYield);
               wineYieldTableView.refresh();
               eventMessage.setText("Successfully deleted");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the definition. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the definition.");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
+
         }
     }
 
@@ -200,8 +230,6 @@ public class DefineGrapeController {
         }
     }
 
-    @FXML
-    private Text showLitersInStock;
 
     public void getLitersWineInStock() {
         GrapeVariety grapeVariety = new GrapeVariety();

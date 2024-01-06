@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -38,7 +39,10 @@
             <Font name="Arial Rounded MT Bold" size="36.0" />
          </font>
       </Label>
-      <Label fx:id="eventMessage" layoutX="70.0" layoutY="460.0" prefHeight="17.0" prefWidth="219.0" textFill="#bc1111" />
+      <Label fx:id="eventMessage" layoutX="70.0" layoutY="460.0" prefHeight="17.0" prefWidth="219.0" textFill="#bc1111">
+         <tooltip>
+            <Tooltip fx:id="eventMessageTooltip" />
+         </tooltip></Label>
       <TableView fx:id="bottledWineTableView" layoutX="299.0" layoutY="110.0" stylesheets="@../css/tableview.css">
         <columns>
           <TableColumn fx:id="wineNameColumn" prefWidth="122.0" text="Wine name" />

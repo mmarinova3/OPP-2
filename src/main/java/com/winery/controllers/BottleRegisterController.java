@@ -17,6 +17,8 @@ public class BottleRegisterController {
     @FXML
     private Label eventMessage;
     @FXML
+    private Tooltip eventMessageTooltip;
+    @FXML
     private TextField volume;
     @FXML
     private TextField quantity;
@@ -75,12 +77,14 @@ public class BottleRegisterController {
 
         if ( newVolume == 0 || newQuantity == 0) {
             eventMessage.setText("Please fill in all fields");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
         if (bottleService.existsByVolume(newVolume)) {
            eventMessage.setText("A bottle with volume " + newVolume + " already exists!");
-            return;
+           eventMessageTooltip.setText(eventMessage.getText());
+           return;
         }
 
         Bottle bottle = new Bottle();
@@ -90,6 +94,7 @@ public class BottleRegisterController {
         bottleTableView.getItems().add(bottle);
         clearInputFields();
         eventMessage.setText("Bottle type successfully added");
+        eventMessageTooltip.setText(eventMessage.getText());
     }
 
     @FXML
@@ -102,6 +107,7 @@ public class BottleRegisterController {
 
             if (volumeText.isEmpty() || quantityText.isEmpty()) {
                 eventMessage.setText("Please fill in all fields for the update");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
@@ -111,6 +117,7 @@ public class BottleRegisterController {
 
                 if (updatedVolume != selectedBottle.getVolume()) {
                     eventMessage.setText("Volume cannot be changed");
+                    eventMessageTooltip.setText(eventMessage.getText());
                     return;
                 }
 
@@ -119,11 +126,14 @@ public class BottleRegisterController {
                 bottleService.update(selectedBottle, new String[]{String.valueOf(updatedQuantity)});
                 bottleTableView.refresh();
                 eventMessage.setText("Bottle successfully updated");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (NumberFormatException e) {
                 eventMessage.setText("Error: Invalid quantity format");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to update");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 
@@ -139,15 +149,20 @@ public class BottleRegisterController {
                bottleTableView.getItems().remove(selectedBottle);
                bottleTableView.refresh();
                eventMessage.setText("Bottle successfully deleted");
+               eventMessageTooltip.setText(eventMessage.getText());
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the bottle. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the bottle.");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
     private void accessCheck(){

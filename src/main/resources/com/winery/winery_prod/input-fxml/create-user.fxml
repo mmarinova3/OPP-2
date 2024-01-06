@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -21,7 +22,10 @@
       <Button layoutX="64.0" layoutY="201.0" mnemonicParsing="false" onAction="#createUser" prefHeight="25.0" prefWidth="149.0" styleClass="management-button" stylesheets="@../css/manage-button.css" text="Create" />
       <TextField fx:id="newUsername" layoutX="64.0" layoutY="132.0" promptText="Username" />
       <PasswordField fx:id="newPassword" layoutX="64.0" layoutY="165.0" promptText="Password" />
-      <Label fx:id="eventMessage" layoutX="64.0" layoutY="337.0" prefHeight="17.0" prefWidth="182.0" textFill="#940a0a" />
+      <Label fx:id="eventMessage" layoutX="64.0" layoutY="337.0" prefHeight="17.0" prefWidth="182.0" textFill="#940a0a">
+         <tooltip>
+            <Tooltip fx:id="eventMessageTooltip" text="Empty Tooltip" />
+         </tooltip></Label>
       <TableView fx:id="userTableView" layoutX="291.0" layoutY="55.0" stylesheets="@../css/tableview.css">
         <columns>
           <TableColumn fx:id="usernameColumn" prefWidth="75.0" text="Username" />

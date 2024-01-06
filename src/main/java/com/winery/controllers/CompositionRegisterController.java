@@ -21,6 +21,8 @@ public class CompositionRegisterController {
     @FXML
     private Label eventMessage;
     @FXML
+    private Tooltip eventMessageTooltip;
+    @FXML
     private TextField newCompositionName;
     @FXML
     private TableView<WineComposition> wineCompositionTableView;
@@ -71,6 +73,7 @@ public class CompositionRegisterController {
 
        if (compositionName==null){
            eventMessage.setText("Please fill in all fields");
+           eventMessageTooltip.setText(eventMessage.getText());
            return;
        }
 
@@ -80,6 +83,7 @@ public class CompositionRegisterController {
 
         if (nameExists) {
             eventMessage.setText(compositionName+" already exists");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -90,6 +94,7 @@ public class CompositionRegisterController {
        wineCompositionTableView.getItems().add(wineComposition);
        wineCompositionTableView.refresh();
        eventMessage.setText("New wine composition successfully added");
+       eventMessageTooltip.setText(eventMessage.getText());
     }
 
     @FXML
@@ -102,6 +107,7 @@ public class CompositionRegisterController {
 
             if (compositionName.isEmpty()) {
                 eventMessage.setText("Please fill in field for the update");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
@@ -111,6 +117,7 @@ public class CompositionRegisterController {
 
             if (nameExists) {
                 eventMessage.setText(compositionName+" already exists");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
@@ -119,9 +126,10 @@ public class CompositionRegisterController {
                wineCompositionService.update(selectedWineComposition, new String[]{compositionName});
                wineCompositionTableView.refresh();
                eventMessage.setText("Wine composition successfully updated");
-
+               eventMessageTooltip.setText(eventMessage.getText());
         } else {
             eventMessage.setText("Please select a row to update");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 
@@ -136,15 +144,20 @@ public class CompositionRegisterController {
               wineCompositionTableView.getItems().remove(selectedWineComposition);
               wineCompositionTableView.refresh();
               eventMessage.setText("Wine composition successfully deleted");
+              eventMessageTooltip.setText(eventMessage.getText());
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the wine composition. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the wine composition.");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
 
     }

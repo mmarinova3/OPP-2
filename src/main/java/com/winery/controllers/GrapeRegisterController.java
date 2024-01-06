@@ -24,6 +24,8 @@ public class GrapeRegisterController {
     @FXML
     private Label eventMessage;
     @FXML
+    private Tooltip eventMessageTooltip;
+    @FXML
     private TextField newGrapeName;
     @FXML
     private TextField newQuantity;
@@ -95,11 +97,13 @@ public class GrapeRegisterController {
             quantity = Double.parseDouble(newQuantity.getText());
         } catch (NumberFormatException e) {
             eventMessage.setText("Invalid quantity format");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
         if (grapeName.isEmpty() || category == null || quantity == 0) {
             eventMessage.setText("Please fill in all fields");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -112,6 +116,8 @@ public class GrapeRegisterController {
         grapeVarietyTableView.getItems().add(grapeVariety);
         clearInputFields();
         eventMessage.setText("New grape variety successfully added");
+        eventMessageTooltip.setText(eventMessage.getText());
+
     }
 
 
@@ -138,6 +144,7 @@ public class GrapeRegisterController {
 
             if (updatedName.isEmpty() || updatedCategory == null || updatedQuantityText.isEmpty()) {
                 eventMessage.setText("Please fill in all fields for the update");
+                eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
 
@@ -152,13 +159,21 @@ public class GrapeRegisterController {
                 grapeVarietyService.update(selectedGrapeVariety, new String[]{updatedName, String.valueOf(category), String.valueOf(updatedQuantity)});
                 grapeVarietyTableView.refresh();
                 eventMessage.setText("Grape variety successfully updated");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             } catch (NumberFormatException e) {
                 eventMessage.setText("Error: Invalid quantity format");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             } catch (IllegalArgumentException e) {
                 eventMessage.setText("Error: Invalid grape category");
+                eventMessageTooltip.setText(eventMessage.getText());
+
             }
         } else {
             eventMessage.setText("Please select a row to update");
+            eventMessageTooltip.setText(eventMessage.getText());
+
         }
     }
 
@@ -172,15 +187,20 @@ public class GrapeRegisterController {
                 grapeVarietyTableView.getItems().remove(selectedGrapeVariety);
                 grapeVarietyTableView.refresh();
                 eventMessage.setText("Grape variety successfully deleted");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the grape variety. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the grape variety.");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 

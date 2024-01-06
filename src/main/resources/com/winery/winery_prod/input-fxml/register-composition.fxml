@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -22,7 +23,10 @@
       <Label fx:id="eventMessage" layoutX="85.0" layoutY="281.0" prefHeight="17.0" prefWidth="222.0" textFill="#bc1111">
          <font>
             <Font size="13.0" />
-         </font></Label>
+         </font>
+         <tooltip>
+            <Tooltip fx:id="eventMessageTooltip" />
+         </tooltip></Label>
       <Label layoutX="85.0" layoutY="29.0" prefHeight="36.0" prefWidth="460.0" text="Wine composition (add name)" textFill="#9d0208">
          <font>
             <Font name="Arial Rounded MT Bold" size="30.0" />

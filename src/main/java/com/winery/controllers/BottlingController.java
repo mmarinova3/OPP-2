@@ -23,6 +23,8 @@ public class BottlingController {
     @FXML
     private Label eventMessage;
     @FXML
+    private Tooltip eventMessageTooltip;
+    @FXML
     private TableView<BottledWine>bottledWineTableView;
     @FXML
     private TableColumn<BottledWine, String> wineNameColumn;
@@ -47,13 +49,11 @@ public class BottlingController {
     private final BottledWineService bottledWineService;
     private final WineCompositionService wineCompositionService;
     private final BottleService bottleService;
-    private final GrapeVarietyService grapeVarietyService;
 
     public BottlingController() {
         this.bottledWineService = BottledWineService.getInstance(Connection.getEntityManager(), Session.getInstance());
         this.wineCompositionService = WineCompositionService.getInstance(Connection.getEntityManager(), Session.getInstance());
         this.bottleService = BottleService.getInstance(Connection.getEntityManager(), Session.getInstance());
-        this.grapeVarietyService = GrapeVarietyService.getInstance(Connection.getEntityManager(),Session.getInstance());
         this.accessController = new AccessController(Session.getInstance().getUser());
     }
 
@@ -137,6 +137,7 @@ public class BottlingController {
             quantity = Integer.parseInt(quantityText);
         } catch (NumberFormatException e) {
             eventMessage.setText("Quantity must be a valid number");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -158,6 +159,7 @@ public class BottlingController {
         int bottlesToFill = optimalBottling.getOptimalBottling(wineComposition, bottle);
         if (bottlesToFill<=0){
             eventMessage.setText("Not enough bottles");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -179,11 +181,13 @@ public class BottlingController {
         /*
         if(maxBottleInLitters<optimalBottling.getMaxOfWineComposition(wineComposition)){
             eventMessage.setText("Not enough wine");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }*/
 
         if (newQuantity>bottlesToFill){
             eventMessage.setText("Not enough bottles");
+            eventMessageTooltip.setText(eventMessage.getText());
             return;
         }
 
@@ -195,6 +199,7 @@ public class BottlingController {
         bottledWine.setBottlingDate(date);
         clearInputFields();
         eventMessage.setText("Bottling added successfully");
+        eventMessageTooltip.setText(eventMessage.getText());
         optimalBottling.updateGrapeQuantity(wineComposition,bottle.getVolume()*bottledWine.getQuantity());
         bottleService.getAndUpdateQuantityInStockById(bottleId,bottledWine.getQuantity());
         bottledWineService.save(bottledWine);
@@ -211,20 +216,26 @@ public class BottlingController {
                 bottledWineTableView.getItems().remove(selectedBottledWine);
                 bottledWineTableView.refresh();
                 eventMessage.setText("Successfully deleted");
+                eventMessageTooltip.setText(eventMessage.getText());
                 int bottleID=bottleService.findIdByVolume(selectedBottledWine.getBottle().getVolume());
                 bottleService.returnQuantityInStockById(bottleID,selectedBottledWine.getQuantity());
 
             } catch (EntityNotFoundException e) {
                 eventMessage.setText("Cannot delete the bottling. It does not exist.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (PersistenceException e) {
                 eventMessage.setText("An error occurred during the deletion process.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (IllegalArgumentException e) {
                 eventMessage.setText("An error occurred. The selected bottling is detached.");
+                eventMessageTooltip.setText(eventMessage.getText());
             } catch (Exception e) {
                 eventMessage.setText("An unexpected error occurred while deleting the bottling.");
+                eventMessageTooltip.setText(eventMessage.getText());
             }
         } else {
             eventMessage.setText("Please select a row to delete");
+            eventMessageTooltip.setText(eventMessage.getText());
         }
     }
 
