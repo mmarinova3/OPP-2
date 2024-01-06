@@ -2,6 +2,7 @@ package com.winery.controllers;
 
 import com.winery.accessControl.AccessController;
 import com.winery.entities.Bottle;
+import com.winery.entities.User;
 import com.winery.service.BottleService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.Comparator;
 import java.util.List;
 
 public class BottleRegisterController {
@@ -46,9 +48,10 @@ public class BottleRegisterController {
 
         volumeColumn.setCellValueFactory(new PropertyValueFactory<>("volume"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
+
         List<Bottle> bottles = bottleService.getAll();
+        bottles.sort(Comparator.comparing((Bottle::getVolume)));
         bottleTableView.getItems().addAll(bottles);
-        bottleTableView.refresh();
 
         bottleTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

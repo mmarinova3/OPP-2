@@ -17,6 +17,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -74,6 +75,7 @@ public class WineComponentsController {
         quantityNeededColumn.setCellValueFactory(new PropertyValueFactory<>("quantityNeeded"));
 
         List<WineComponents> wineComponents= wineComponentsService.getAll();
+        wineComponents.sort(Comparator.comparing(wineComponent-> wineComponent.getWineComposition().getWineName()));
         wineComponentsTableView.getItems().addAll(wineComponents);
 
         wineComponentsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

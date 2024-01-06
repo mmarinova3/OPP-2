@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -60,7 +61,9 @@ public class CreateUserController {
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         passwordColumn.setCellValueFactory(new PropertyValueFactory<>("password"));
 
+
         List<User> userList = userService.getAll();
+        userList.sort(Comparator.comparing(user -> user.getRole().getRoleName()));
         userTableView.getItems().addAll(userList);
 
         userTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -154,13 +157,9 @@ public class CreateUserController {
                 eventMessageTooltip.setText(eventMessage.getText());
             }
 
-            boolean nameExists = userTableView.getItems().stream()
-                    .filter(user -> !user.equals(selectedUser))
-                    .anyMatch(user -> user.getUsername().equals(username));
 
-
-            if (nameExists) {
-                eventMessage.setText(username+" already exists");
+            if (!username.equals(selectedUser.getUsername())){
+                eventMessage.setText("Username can not be changed.");
                 eventMessageTooltip.setText(eventMessage.getText());
                 return;
             }
@@ -169,6 +168,9 @@ public class CreateUserController {
             role.setRoleName(UserRole.valueOf(roleName));
             Integer roleId = roleService.findIdByName(role.getRoleName());
             role.setId(roleId);
+
+            selectedUser.setRole(role);
+            selectedUser.setPassword(password);
 
             userService.update(selectedUser, new String[]{username,password, String.valueOf(role.getId())});
             userTableView.refresh();

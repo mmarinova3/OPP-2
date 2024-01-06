@@ -15,6 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -64,6 +65,7 @@ public class DefineGrapeController {
         litersColumn.setCellValueFactory(new PropertyValueFactory<>("yieldPerKg"));
 
         List<WineYield> wineYields = wineYieldService.getAll();
+        wineYields.sort(Comparator.comparing(wineYield -> wineYield.getGrape().getGrapeName()));
         wineYieldTableView.getItems().addAll(wineYields);
 
         wineYieldTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

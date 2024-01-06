@@ -50,6 +50,9 @@ public class RefBottledWineController {
         List<BottledWine> bottledWines = bottledWineService.getAll();
         bottledWineTableView.getItems().addAll(bottledWines);
 
+        bottledWineTableView.getSortOrder().add(wineNameColumn);
+        bottledWineTableView.sort();
+
     }
 
 }

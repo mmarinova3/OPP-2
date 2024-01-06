@@ -16,6 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +66,7 @@ public class GrapeRegisterController {
         quantityColumn.setCellValueFactory(new PropertyValueFactory<>("quantity"));
 
         List<GrapeVariety> grapeVarieties = grapeVarietyService.getAll();
+        grapeVarieties.sort(Comparator.comparing(GrapeVariety::getGrapeName));
         grapeVarietyTableView.getItems().addAll(grapeVarieties);
 
         grapeVarietyTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

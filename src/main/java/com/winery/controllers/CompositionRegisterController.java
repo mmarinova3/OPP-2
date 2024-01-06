@@ -15,6 +15,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 
 public class CompositionRegisterController {
@@ -48,7 +49,8 @@ public class CompositionRegisterController {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("wineName"));
 
         List<WineComposition> wineCompositions = wineCompositionService.getAll();
-       wineCompositionTableView.getItems().addAll(wineCompositions);
+        wineCompositions.sort(Comparator.comparing(WineComposition::getWineName));
+        wineCompositionTableView.getItems().addAll(wineCompositions);
 
        wineCompositionTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {

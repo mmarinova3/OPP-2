@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.sql.Date;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,6 +79,7 @@ public class BottlingController {
        dateColumn.setCellValueFactory(new PropertyValueFactory<>("bottlingDate"));
 
         List<BottledWine> bottledWines = bottledWineService.getAll();
+        bottledWines.sort(Comparator.comparing(bottledWine -> bottledWine.getWineComposition().getWineName()));
         bottledWineTableView.getItems().addAll(bottledWines);
 
         bottledWineTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
