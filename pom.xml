@@ -114,7 +114,7 @@
             <!-- Default configuration for running with: mvn clean javafx:run -->
             <id>default-cli</id>
             <configuration>
-              <mainClass>com.winery.winery_prod/com.winery.winery_prod.Main</mainClass>
+              <mainClass>com.winery.winery_prod/com.winery.winery_prod.App</mainClass>
               <launcher>app</launcher>
               <jlinkZipName>app</jlinkZipName>
               <jlinkImageName>app</jlinkImageName>

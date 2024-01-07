@@ -5,12 +5,14 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -21,11 +23,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         stage = primaryStage;
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("/com/winery/winery_prod/login-view.fxml"));
+        Image image = new Image(Objects.requireNonNull(getClass().getResource("/com/winery/winery_prod/image/wine-icon.png")).toExternalForm());
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root, 506, 312);
         primaryStage.setTitle("Winery Production");
-        primaryStage.setResizable(true);
-        primaryStage.initStyle(StageStyle.TRANSPARENT);
+        primaryStage.getIcons().add(image);
+        primaryStage.setResizable(false);
+        //primaryStage.initStyle(StageStyle.TRANSPARENT);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

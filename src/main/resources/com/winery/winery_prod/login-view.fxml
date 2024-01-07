@@ -28,7 +28,4 @@
             </font>
         </Label>
     </AnchorPane>
-    <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="463.0" layoutY="14.0" onMouseClicked="#close_clicked" pickOnBounds="true" preserveRatio="true">
-        <Image url="@image/close-button.png" />
-    </ImageView>
 </AnchorPane>

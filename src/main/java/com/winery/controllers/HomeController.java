@@ -9,19 +9,19 @@ import com.winery.utils.Session;
 import com.winery.winery_prod.Main;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
+import javafx.scene.text.Text;
 
 import java.io.IOException;
 
 public class HomeController {
     @FXML
     private Label userLabel;
-    @FXML
-    private ImageView minimizeButton;
+
     @FXML
     private Label roleLabel;
+    @FXML
+    private Text welcomeText;
 
     @FXML
     private AnchorPane mainAnchor;
@@ -45,6 +45,7 @@ public class HomeController {
 
         userLabel.setText("Welcome, " + currentUser.getUsername());
         roleLabel.setText("Role: " + currentUser.getRoleName());
+        welcomeText.setText("Welcome, " + currentUser.getUsername()+"!");
 
     }
 
@@ -104,14 +105,6 @@ public class HomeController {
         SceneNavigator.navigateTo("/com/winery/winery_prod/notifications-view.fxml", mainAnchor);
     }
 
-    @FXML
-    private void close_clicked() {
-       javafx.application.Platform.exit();
-    }
-    @FXML
-    private void minimized_Clicked() {
-        Stage stage =(Stage) minimizeButton.getScene().getWindow();
-        stage.setIconified(true);
-    }
+
 
 }

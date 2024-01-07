@@ -58,10 +58,7 @@ public class LoginController {
                 }
         }
 
-        @FXML
-        private void close_clicked() {
-                javafx.application.Platform.exit();
-        }
+
 }
 
 
