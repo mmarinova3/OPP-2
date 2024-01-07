@@ -109,6 +109,16 @@ public class GrapeRegisterController {
             return;
         }
 
+        List<GrapeVariety>grapeVarietyList = grapeVarietyService.getAll();
+        for (GrapeVariety gv:grapeVarietyList) {
+            if(grapeName.equals(gv.getGrapeName())){
+                eventMessage.setText("The grape with name '"+grapeName+"' is already registered.");
+                eventMessageTooltip.setText(eventMessage.getText());
+                return;
+            }
+        }
+
+
         GrapeVariety grapeVariety = new GrapeVariety();
         grapeVariety.setGrapeName(grapeName);
         grapeVariety.setCategory(GrapeCategory.valueOf(category));

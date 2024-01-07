@@ -37,7 +37,7 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Label layoutX="141.0" layoutY="25.0" prefHeight="43.0" prefWidth="389.0" text="Bottle Managment" textFill="#9d0208">
+      <Label layoutX="141.0" layoutY="25.0" prefHeight="43.0" prefWidth="389.0" text="Bottle Management" textFill="#9d0208">
          <font>
             <Font name="Arial Rounded MT Bold" size="36.0" />
          </font>

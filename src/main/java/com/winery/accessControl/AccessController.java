@@ -1,7 +1,6 @@
 package com.winery.accessControl;
 
 import com.winery.entities.User;
-import javafx.scene.control.Alert;
 
 public class AccessController {
 
@@ -12,14 +11,11 @@ public class AccessController {
     }
 
     public boolean checkAdminOrOperatorAccess() {
-        //   showMessage("UnauthorizedAccess","Insufficient privileges for the operation");
         return currentUser.getRoleName().equals("ADMIN") || currentUser.getRoleName().equals("OPERATOR");
 
     }
 
-
     public boolean checkAdminAccess() {
-        //HELLO
         return currentUser.getRoleName().equals("ADMIN");
     }
 }

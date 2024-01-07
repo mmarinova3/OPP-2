@@ -22,7 +22,7 @@ public class CriticSituations {
 
     private final GrapeVarietyService grapeVarietyService;
     private final BottleService bottleService;
-    private final List<Notification> notifications; // List to store generated notifications
+    private final List<Notification> notifications;
 
     public CriticSituations() {
         this.grapeVarietyService = GrapeVarietyService.getInstance(Connection.getEntityManager(), Session.getInstance());

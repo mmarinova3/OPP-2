@@ -2,7 +2,6 @@ package com.winery.controllers;
 
 import com.winery.accessControl.AccessController;
 import com.winery.entities.Bottle;
-import com.winery.entities.User;
 import com.winery.service.BottleService;
 import com.winery.utils.Connection;
 import com.winery.utils.Session;

@@ -12,13 +12,13 @@ public class BottledWineService {
     private static BottledWineService INSTANCE = null;
     private final BottledWineDao bottledWineDao;
 
-    private BottledWineService(EntityManager entityManager) {
+    private BottledWineService(EntityManager entityManager, Session session) {
         this.bottledWineDao = new BottledWineDao(entityManager);
     }
 
     public static BottledWineService getInstance(EntityManager entityManager, Session session) {
         if (INSTANCE == null) {
-            INSTANCE = new BottledWineService(entityManager);
+            INSTANCE = new BottledWineService(entityManager,session);
         }
         return INSTANCE;
     }

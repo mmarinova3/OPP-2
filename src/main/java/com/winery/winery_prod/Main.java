@@ -43,14 +43,15 @@ public class Main extends Application {
     @Override
     public void stop() {
         try {
-
-
+            log.info("Application stopping...");
         } catch (Exception e) {
             log.error("Error during application stop: {}", e.getMessage(), e);
         } finally {
             Connection.closeEMF();
+            log.info("Entity Manager Factory closed.");
         }
     }
+
 
     public static void main(String[] args) {
         launch(args);

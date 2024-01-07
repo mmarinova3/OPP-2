@@ -11,32 +11,24 @@
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="312.0" prefWidth="506.0" style="-fx-background-color: #40404080;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.winery.controllers.LoginController">
-    <children>
-        <ImageView fitHeight="349.0" fitWidth="506.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../../../../../../../../OneDrive/Desktop/SOPHIE+WEBSITE+IMAGES+2020.jpg" />
-            </image>
-        </ImageView>
-        <AnchorPane layoutX="22.0" layoutY="98.0" prefHeight="165.0" prefWidth="207.0" style="-fx-background-color: #40404080;">
-            <children>
-                <TextField fx:id="username" alignment="CENTER" layoutX="29.0" layoutY="47.0" promptText="Username" />
-                <PasswordField fx:id="password" alignment="CENTER" layoutX="29.0" layoutY="83.0" promptText="Password" />
-                <Button fx:id="logIn" alignment="CENTER" layoutX="81.0" layoutY="126.0" mnemonicParsing="false" onAction="#checkLogin" style="-fx-background-color: #404040;" text="Login" textFill="#f2f2f2">
-                    <cursor>
-                        <Cursor fx:constant="OPEN_HAND" />
-                    </cursor>
-                </Button>
-                <Label fx:id="wrongLogIn" layoutX="90.0" layoutY="6.0" textFill="RED">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-            </children>
-      </AnchorPane>
-      <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="463.0" layoutY="14.0" onMouseClicked="#close_clicked" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@image/close-button.png" />
-         </image>
-      </ImageView>
-    </children>
+    <ImageView fitHeight="349.0" fitWidth="506.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@image/login.jpg" />
+    </ImageView>
+    <AnchorPane layoutX="22.0" layoutY="98.0" prefHeight="165.0" prefWidth="207.0" style="-fx-background-color: #40404080;">
+        <TextField fx:id="username" alignment="CENTER" layoutX="29.0" layoutY="47.0" promptText="Username" />
+        <PasswordField fx:id="password" alignment="CENTER" layoutX="29.0" layoutY="83.0" promptText="Password" />
+        <Button fx:id="logIn" alignment="CENTER" layoutX="81.0" layoutY="126.0" mnemonicParsing="false" onAction="#checkLogin" style="-fx-background-color: #404040;" text="Login" textFill="#f2f2f2">
+            <cursor>
+                <Cursor fx:constant="OPEN_HAND" />
+            </cursor>
+        </Button>
+        <Label fx:id="wrongLogIn" layoutX="6.0" layoutY="6.0" prefHeight="20.0" prefWidth="194.0" textFill="#970000">
+            <font>
+                <Font name="System Bold" size="14.0" />
+            </font>
+        </Label>
+    </AnchorPane>
+    <ImageView fitHeight="31.0" fitWidth="29.0" layoutX="463.0" layoutY="14.0" onMouseClicked="#close_clicked" pickOnBounds="true" preserveRatio="true">
+        <Image url="@image/close-button.png" />
+    </ImageView>
 </AnchorPane>

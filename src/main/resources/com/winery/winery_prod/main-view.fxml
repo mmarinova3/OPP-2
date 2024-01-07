@@ -31,7 +31,7 @@
                </image>
             </ImageView>
             <Line endX="-99.70710754394531" endY="32.29289245605469" startX="-100.0" stroke="#f2af29" />
-            <ImageView fx:id="closeButton1" accessibleRole="BUTTON" fitHeight="33.0" fitWidth="355.0" onMouseClicked="#close_clicked" pickOnBounds="true" preserveRatio="true">
+            <ImageView accessibleRole="BUTTON" fitHeight="33.0" fitWidth="355.0" onMouseClicked="#close_clicked" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@image/close-button.png" />
                </image>
@@ -53,12 +53,12 @@
          <children>
             <Accordion prefHeight="442.0" prefWidth="246.0" stylesheets="@css/button.css">
                <panes>
-                  <TitledPane fx:id="userTitledPane" alignment="TOP_CENTER" animated="true" prefHeight="311.0" prefWidth="246.0" text="User" textFill="#141313" textOverrun="WORD_ELLIPSIS">
+                  <TitledPane  alignment="TOP_CENTER" prefHeight="311.0" prefWidth="246.0" text="User" textFill="#141313" textOverrun="WORD_ELLIPSIS">
                      <content>
                         <AnchorPane focusTraversable="true" minHeight="0.0" minWidth="0.0" prefHeight="110.0" prefWidth="250.0">
                            <children>
                               <Label fx:id="roleLabel" layoutX="28.0" layoutY="52.0" textFill="WHITE" />
-                              <Button fx:id="logOut" layoutX="68.0" layoutY="78.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="27.0" prefWidth="99.0" style="-fx-background-color: #f2af29;" text="Log Out" textFill="#d7caca">
+                              <Button layoutX="68.0" layoutY="78.0" mnemonicParsing="false" onAction="#LogOut" prefHeight="27.0" prefWidth="99.0" style="-fx-background-color: #f2af29;" text="Log Out" textFill="#d7caca">
                                  <font>
                                     <Font name="System Bold" size="14.0" />
                                  </font>

@@ -13,13 +13,13 @@ public class GrapeVarietyService {
     private static GrapeVarietyService INSTANCE = null;
     private final GrapeVarietyDao grapeVarietyDao;
 
-    private GrapeVarietyService(EntityManager entityManager) {
+    private GrapeVarietyService(EntityManager entityManager, Session session) {
         this.grapeVarietyDao = new GrapeVarietyDao(entityManager);
     }
 
     public static GrapeVarietyService getInstance(EntityManager entityManager, Session session) {
         if (INSTANCE == null) {
-            INSTANCE = new GrapeVarietyService(entityManager);
+            INSTANCE = new GrapeVarietyService(entityManager,session);
         }
         return INSTANCE;
     }

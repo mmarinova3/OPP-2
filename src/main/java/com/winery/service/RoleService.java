@@ -10,13 +10,13 @@ public class RoleService {
     private static RoleService INSTANCE = null;
     private final RoleDao roleDao;
 
-    private RoleService(EntityManager entityManager) {
+    private RoleService(EntityManager entityManager, Session session) {
         this.roleDao = new RoleDao(entityManager);
     }
 
     public static RoleService getInstance(EntityManager entityManager, Session session) {
         if (INSTANCE == null) {
-            INSTANCE = new RoleService(entityManager);
+            INSTANCE = new RoleService(entityManager,session);
         }
         return INSTANCE;
     }

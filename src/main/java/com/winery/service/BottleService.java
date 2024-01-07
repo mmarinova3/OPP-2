@@ -13,13 +13,13 @@ public class BottleService {
     private static BottleService INSTANCE = null;
     private final BottleDao bottleDao;
 
-    private BottleService(EntityManager entityManager) {
+    private BottleService(EntityManager entityManager, Session session) {
         this.bottleDao = new BottleDao(entityManager);
     }
 
     public static BottleService getInstance(EntityManager entityManager, Session session) {
         if (INSTANCE == null) {
-            INSTANCE = new BottleService(entityManager);
+            INSTANCE = new BottleService(entityManager,session);
         }
         return INSTANCE;
     }
