@@ -28,5 +28,6 @@ class WineCompositionServiceTest {
     @Test
     void findIdByName() {
         wineCompositionService.findIdByName("Merlot");
+        entityManager.clear();
     }
 }

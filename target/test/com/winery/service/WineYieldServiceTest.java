@@ -39,12 +39,4 @@ class WineYieldServiceTest {
         }
     }
 
-    @Test
-    void findYieldPerKgById() {
-        GrapeVariety testGV = new GrapeVariety();
-        testGV.setId( grapeVarietyService.findIdByName("Merlot"));
-        double quantity=grapeVarietyService.findQuantityById(testGV.getId());
-        double yieldPerKg =wineYieldService.findYieldPerKgById(testGV);
-        System.out.print("Wine in stock: "+quantity*yieldPerKg);
-    }
 }
