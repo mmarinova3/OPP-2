@@ -79,7 +79,7 @@ public class BottlingController {
        dateColumn.setCellValueFactory(new PropertyValueFactory<>("bottlingDate"));
 
         List<BottledWine> bottledWines = bottledWineService.getAll();
-        bottledWines.sort(Comparator.comparing(bottledWine -> bottledWine.getWineComposition().getWineName()));
+        bottledWines.sort(Comparator.comparing(BottledWine::getBottlingDate));
         bottledWineTableView.getItems().addAll(bottledWines);
 
         bottledWineTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
