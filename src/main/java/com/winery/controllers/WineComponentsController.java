@@ -17,7 +17,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -68,14 +67,15 @@ public class WineComponentsController {
             WineComposition wineComposition = cellData.getValue().getWineComposition();
             return new SimpleStringProperty(wineComposition != null ? wineComposition.getWineName() : "");
         });
+
         grapeNameColumn.setCellValueFactory(cellData -> {
             GrapeVariety grape = cellData.getValue().getGrape();
             return new SimpleStringProperty(grape != null ? grape.getGrapeName() : "");
         });
+
         quantityNeededColumn.setCellValueFactory(new PropertyValueFactory<>("quantityNeeded"));
 
-        List<WineComponents> wineComponents= wineComponentsService.getAll();
-        wineComponents.sort(Comparator.comparing(wineComponent-> wineComponent.getWineComposition().getWineName()));
+        List<WineComponents> wineComponents = wineComponentsService.getAll();
         wineComponentsTableView.getItems().addAll(wineComponents);
 
         wineComponentsTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
@@ -85,8 +85,6 @@ public class WineComponentsController {
                 clearInputFields();
             }
         });
-        wineComponentsTableView.getSortOrder().add(wineNameColumn);
-        wineComponentsTableView.sort();
 
     }
     private void updateFieldsWithSelectedRow(WineComponents selectedWineComponents) {

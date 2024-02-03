@@ -1,12 +1,12 @@
 package com.winery.utils;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-import jakarta.persistence.PersistenceException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
+import jakarta.persistence.PersistenceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Connection {
     private static final Logger log = LogManager.getLogger(Connection.class);
@@ -34,7 +34,6 @@ public class Connection {
             throw new RuntimeException("Error creating EntityManager", ex);
         }
     }
-
 
     public static void closeEMF() {
         entityManagerFactory.close();
